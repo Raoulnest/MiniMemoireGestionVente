@@ -26,7 +26,7 @@ public class ControlImageChooser {
         	System.out.println(file.getName());
         	Zonne_d_Image d = new Zonne_d_Image();
         	String path = file.getAbsolutePath();
-        	label.setIcon(d.resizeImage(path, null, label));
+        	label.setIcon(d.resizeImage(path, null, label,100));
         	fileName = file.getName();
         }
         return image;

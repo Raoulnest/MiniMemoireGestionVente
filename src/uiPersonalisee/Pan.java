@@ -31,7 +31,7 @@ public class Pan extends JPanel {
 		label.setForeground(Color.WHITE);
 		panImageView.add(label, BorderLayout.CENTER);
 		Zonne_d_Image d = new Zonne_d_Image();
-	   	label.setIcon(d.resizeImage(path, null, label));
+	   	label.setIcon(d.resizeImage(path, null, label, 100));
 
 	}
 	

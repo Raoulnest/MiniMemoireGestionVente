@@ -12,16 +12,15 @@ public class Zonne_d_Image extends JPanel {
 		Image img = null;
 		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(),this);
 	}
-	public ImageIcon resizeImage(String imagePath, byte[] pic,JLabel label) {
+	public ImageIcon resizeImage(String imagePath, byte[] pic,JLabel label,int x) {
 		ImageIcon myImage = null;
 		if(imagePath != null) {
 			myImage = new ImageIcon(imagePath);
 		}else {
 			myImage = new ImageIcon(pic);
-		}
-		
+		} 
 		if(label.getWidth() == 0 && label.getHeight() == 0) {
-			Image  img2 = myImage.getImage().getScaledInstance(label.getWidth()+30, label.getHeight()+30, Image.SCALE_SMOOTH);
+			Image  img2 = myImage.getImage().getScaledInstance(label.getWidth()+x, label.getHeight()+x, Image.SCALE_SMOOTH);
 			ImageIcon image = new ImageIcon(img2);
 			return image;
 		}else {

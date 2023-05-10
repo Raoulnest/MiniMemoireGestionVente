@@ -136,7 +136,7 @@ public class UI_pan_Liste_Fournisseur extends JPanel {
 		
 		JLabel lbl_recherche = new JLabel();
 		Zonne_d_Image d = new Zonne_d_Image();
-		lbl_recherche.setIcon(d.resizeImage("src/designs/images/icon (185).png", null, lbl_recherche));
+		lbl_recherche.setIcon(d.resizeImage("src/designs/images/icon (185).png", null, lbl_recherche,30));
 		lbl_recherche.setMaximumSize(getMaximumSize());
 		lbl_recherche.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_recherche.setLabelFor(txt_recherche);

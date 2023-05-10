@@ -30,6 +30,8 @@ import controllers.ControlleurProduit;
 import uiPersonalisee.ControlFenetre;
 import uiPersonalisee.ControlImageChooser;
 import uiPersonalisee.PanneauPersonalise;
+import uiPersonalisee.Zonne_d_Image;
+
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 public class UI_modifierProduit extends JDialog {
@@ -129,7 +131,10 @@ public class UI_modifierProduit extends JDialog {
 		panImageView.setLayout(new BorderLayout(0, 0));
 		
 		lbl_sary = new JLabel("");
-//		System.out.println(ControlleurProduit.getImage());
+		
+		Zonne_d_Image zi = new Zonne_d_Image();
+		System.out.println(ControlleurProduit.getImage());
+		lbl_sary.setIcon(zi.resizeImage(ControlleurProduit.getImage(),null,lbl_sary,200));
 //		lbl_sary.setIcon(new ImageIcon(UI_modifierProduit.class.getResource("src/uiApplication/pictures/produits/NESTOR(1).JPG")));
 
 		lbl_sary.setHorizontalAlignment(SwingConstants.CENTER);
