@@ -1,5 +1,6 @@
 package uiPersonalisee;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -66,7 +67,11 @@ public class PanneauPersonalise extends JPanel{
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g.create();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,  RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(c);
+        
+		GradientPaint gradient  = new GradientPaint(0, 0, Color.decode("#000046"), 0, getHeight(),Color.decode("#000044"));
+		g2.setPaint(gradient);
+//		g2.setColor(c);
+         
 		Area area = new Area(createRoundTopLeft());
 		if(roundTopRight > 0) {
 			area.intersect(new Area(createRoundTopRight()));

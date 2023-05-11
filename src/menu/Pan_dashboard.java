@@ -12,10 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
-import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import controllers.ControlleurFournisseur;
 import controllers.ControlleurProduit;
+import uiApplication.fournisseurs.UI_pan_Liste_Fournisseur;
 import uiApplication.produit.UI_pan_Liste_Produit;
 import uiPersonalisee.PanneauPersonalise;
 
@@ -24,6 +25,8 @@ public class Pan_dashboard extends JPanel {
 	 * Create the panel.
 	 */
 	static JPanel panel = new JPanel();
+	
+ControlleurFournisseur co =new ControlleurFournisseur();
 	public static JPanel getPanel() {
 		return panel;
 	}
@@ -68,7 +71,7 @@ public class Pan_dashboard extends JPanel {
 		
 		btnProduit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Menu.getScrollPane().setViewportView(UI_pan_Liste_Produit.getPanel());
+				Menu.addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnProduit.setForeground(Color.WHITE);

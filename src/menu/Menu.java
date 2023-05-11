@@ -2,6 +2,7 @@ package menu;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 
 import controllers.ControlleurFournisseur;
 import controllers.ControlleurProduit;
@@ -29,7 +31,6 @@ import uiPersonalisee.PanneauPersonalise;
 public class Menu extends JFrame {
 	private static JFrame fenMenu;
 	private JPanel contentPane;
-	private static JScrollPane scrollPane = new JScrollPane();
 	ControlleurFournisseur co = new ControlleurFournisseur();
 	private static String click = "";
 	private static boolean clicked = false;
@@ -44,6 +45,7 @@ public class Menu extends JFrame {
 	UI_pan_Liste_Fournisseur f = new UI_pan_Liste_Fournisseur(typeCollaborateur);
 	static String typeCollaborateur;
 	private PanneauPersonalise pan_btn;
+	static JPanel panel;
 	static private double X =100;
 	static private double Y =100;
 	/**
@@ -74,20 +76,29 @@ public class Menu extends JFrame {
         });
 	}
 
+    public static void addPanneau(Component comp){
+    	panel.removeAll();
+    	panel.add(comp);
+    	panel.revalidate();
+    	panel.repaint();
+    }
+
 	/**
 	 * Create the frame.
 	 */
 	public Menu() {
 		initialise();
-		scrollPane.setViewportView(Pan_dashboard.getPanel());
 		JPanel panSystem = new JPanel();
+		
+		panel = new JPanel();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 284, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE))
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+					.addContainerGap())
 				.addComponent(panSystem, GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
@@ -96,35 +107,41 @@ public class Menu extends JFrame {
 					.addComponent(panSystem, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 519, Short.MAX_VALUE)
-							.addContainerGap())
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
+						.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 519, Short.MAX_VALUE))
+					.addContainerGap())
 		);
+		panel.setLayout(new BorderLayout(0, 0));
 		GroupLayout gl_pan_btn = new GroupLayout(pan_btn);
 		gl_pan_btn.setHorizontalGroup(
-			gl_pan_btn.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_pan_btn.createSequentialGroup()
-					.addGap(6)
+			gl_pan_btn.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_pan_btn.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnAccueil, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_pan_btn.createSequentialGroup()
-							.addComponent(btnProduit, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(btnCategorie, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
+							.addComponent(btnCommande, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+							.addContainerGap())
 						.addGroup(gl_pan_btn.createSequentialGroup()
-							.addComponent(btnVente, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(btnFacture, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_pan_btn.createSequentialGroup()
-							.addComponent(btnFournisseur, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(btnClient, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnCommande, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_pan_btn.createSequentialGroup()
-							.addComponent(btnParametre, GroupLayout.PREFERRED_SIZE, 132, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(btnNewButton_2_6, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE))))
+							.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnAccueil, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_pan_btn.createSequentialGroup()
+									.addComponent(btnProduit, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+									.addGap(6)
+									.addComponent(btnCategorie, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pan_btn.createSequentialGroup()
+									.addComponent(btnVente, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+									.addGap(6)
+									.addComponent(btnFacture, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pan_btn.createSequentialGroup()
+									.addComponent(btnFournisseur, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+									.addGap(6)
+									.addComponent(btnClient, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_pan_btn.createSequentialGroup()
+									.addComponent(btnParametre, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+									.addGap(12)
+									.addComponent(btnNewButton_2_6, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)))
+							.addGap(6))))
 		);
 		gl_pan_btn.setVerticalGroup(
 			gl_pan_btn.createParallelGroup(Alignment.LEADING)
@@ -147,10 +164,11 @@ public class Menu extends JFrame {
 						.addComponent(btnClient, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(btnCommande, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addGap(58)
-					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnParametre, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_2_6, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnNewButton_2_6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnParametre, GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+					.addGap(6))
 		);
 		pan_btn.setLayout(gl_pan_btn);
 		panSystem.setLayout(new BorderLayout(0, 0));
@@ -161,7 +179,6 @@ public class Menu extends JFrame {
 	}
 	
 	double x,y;
-	
 	public void initialise() {
 		
 		fenMenu = new JFrame();
@@ -170,6 +187,7 @@ public class Menu extends JFrame {
 		fenMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenMenu.setSize( 1038, 561);
 		fenMenu.setLocationRelativeTo(null);
+		
 		contentPane = new JPanel();
 		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -218,19 +236,19 @@ public class Menu extends JFrame {
 				setClicked(false);
 				click = "Accueil";
 				Pan_dashboard.getBtnProduit().setText(""+ControlleurProduit.getCompteProduit());
-				scrollPane.setViewportView(Pan_dashboard.getPanel());
+//				scrollPane.setViewportView(Pan_dashboard.getPanel());
+				addPanneau(Pan_dashboard.getPanel());
 			}
 		});
 		btnAccueil.setForeground(Color.WHITE);
 		btnAccueil.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAccueil.setBackground(new Color(0,51,110));
 		
-		btnProduit = new JButton("btnProduits");
+		btnProduit = new JButton("Produits");
 		btnProduit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnProduit.setBackground(new Color(0,51,153));
-				
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
@@ -251,7 +269,8 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Produits";
-				scrollPane.setViewportView(UI_pan_Liste_Produit.getPanel());
+
+				addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnProduit.setForeground(Color.WHITE);
@@ -283,7 +302,8 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				click = "Categories";
 				clicked=true;
-				scrollPane.setViewportView(UI_pan_Liste_Produit.getPanel());
+
+				addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnCategorie.setForeground(Color.WHITE);
@@ -315,7 +335,8 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Ventes";
-				scrollPane.setViewportView(UI_pan_Liste_Produit.getPanel());
+
+				addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnVente.setForeground(Color.WHITE);
@@ -347,7 +368,8 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Factures";
-				scrollPane.setViewportView(UI_pan_Liste_Produit.getPanel());
+
+				addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnFacture.setForeground(Color.WHITE);
@@ -380,7 +402,8 @@ public class Menu extends JFrame {
 				setClicked(false);
 				click = "Fournisseurs";
 				typeCollaborateur = "Fournisseur";
-				scrollPane.setViewportView(UI_pan_Liste_Fournisseur.getPanel());
+//				scrollPane.setViewportView(UI_pan_Liste_Fournisseur.getPanel());
+				addPanneau(UI_pan_Liste_Fournisseur.getPanel());
 				co.afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
 			}
 		});
@@ -432,7 +455,8 @@ public class Menu extends JFrame {
 				setClicked(false);
 				click = "Clients";
 				typeCollaborateur = "Client";
-				scrollPane.setViewportView(UI_pan_Liste_Fournisseur.getPanel());
+//				scrollPane.setViewportView(UI_pan_Liste_Fournisseur.getPanel());
+				addPanneau(UI_pan_Liste_Fournisseur.getPanel());
 				co.afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
 			}
 		});
@@ -467,7 +491,8 @@ public class Menu extends JFrame {
 				setClicked(false);
 				click = "Commandes";
 				typeCollaborateur = "Commande";
-				scrollPane.setViewportView(Pan_dashboard.getPanel());
+//				scrollPane.setViewportView(Pan_dashboard.getPanel());
+				addPanneau(UI_pan_Liste_Fournisseur.getPanel());
 				co.afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
 			}
 		});
@@ -579,12 +604,12 @@ public class Menu extends JFrame {
 		public static void setClick(String click) {
 			Menu.click = click;
 		}
-	public static JScrollPane getScrollPane() {
-		return scrollPane;
-	}
-	public static void setScrollPane(JScrollPane scrollPane) {
-		Menu.scrollPane = scrollPane;
-	}
+//	public static JScrollPane getScrollPane() {
+//		return scrollPane;
+//	}
+//	public static void setScrollPane(JScrollPane scrollPane) {
+//		Menu.scrollPane = scrollPane;
+//	}
 	public int getX() {
 		return (int) X;
 	}
@@ -608,5 +633,4 @@ public class Menu extends JFrame {
 	public static void setTypeCollaborateur(String typeCollaborateur) {
 		Menu.typeCollaborateur = typeCollaborateur;
 	}
-	
 }

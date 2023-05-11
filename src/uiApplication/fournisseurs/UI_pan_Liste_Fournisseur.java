@@ -194,6 +194,7 @@ public class UI_pan_Liste_Fournisseur extends JPanel {
 		table = new TableDark();
 		table.setRowHeight(50);
 		scrollPane.setViewportView(table);
+		scrollPane.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
 		panel.setLayout(gl_panel);
 		collaborateur.afficheListe(table,typeC,"");
 	}
