@@ -23,8 +23,8 @@ public class TableDark extends JTable{
 		EnteteTable t = new EnteteTable();
 		getTableHeader().setDefaultRenderer(t);
 		getTableHeader().setPreferredSize(new Dimension(0,35));
-                setDefaultRenderer(Object.class, new ContenuTable());
-                setRowHeight(getTailleLigne());
+        setDefaultRenderer(Object.class, new ContenuTable());
+        setRowHeight(getTailleLigne());
                 
 	}
         int tailleLigne = 30;

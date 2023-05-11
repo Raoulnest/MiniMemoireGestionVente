@@ -27,6 +27,9 @@ import uiApplication.fournisseurs.UI_pan_Liste_Fournisseur;
 import uiApplication.produit.UI_pan_Liste_Produit;
 import uiPersonalisee.ControlFenetre;
 import uiPersonalisee.PanneauPersonalise;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 
 public class Menu extends JFrame {
 	private static JFrame fenMenu;
@@ -176,6 +179,7 @@ public class Menu extends JFrame {
 		ControlFenetre panSyst = new ControlFenetre(fenMenu);
 		panSystem.add(panSyst, BorderLayout.CENTER);
 		contentPane.setLayout(gl_contentPane);
+		addPanneau(menu.Pan_dashboard.getPanel());
 	}
 	
 	double x,y;
@@ -210,6 +214,8 @@ public class Menu extends JFrame {
 		pan_btn = new PanneauPersonalise(20,20,20,20,new Color(0,0,51));
 		
 		btnAccueil = new JButton("Accueil");
+//		btnAccueil.setBorderPainted(false);
+		btnAccueil.setBorder(new EmptyBorder(0, 0, 0, 0));
 		btnAccueil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -220,7 +226,7 @@ public class Menu extends JFrame {
 				if(b[1]) {
 					btnAccueil.setBackground(new Color(0,51,153));
 				}else {
-					btnAccueil.setBackground(new Color(0,51,110));
+					btnAccueil.setBackground(new Color(0, 0, 71));
 				}
 			}
 			@Override
@@ -242,7 +248,7 @@ public class Menu extends JFrame {
 		});
 		btnAccueil.setForeground(Color.WHITE);
 		btnAccueil.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAccueil.setBackground(new Color(0,51,110));
+		btnAccueil.setBackground(new Color(0, 0, 71));
 		
 		btnProduit = new JButton("Produits");
 		btnProduit.addMouseListener(new MouseAdapter() {
@@ -255,7 +261,7 @@ public class Menu extends JFrame {
 				if(b[2]) {
 					btnProduit.setBackground(new Color(0,51,153));
 				}else {
-					btnProduit.setBackground(new Color(0,51,110));
+					btnProduit.setBackground(new Color(0, 0, 71));
 				}
 			}
 			@Override
@@ -275,7 +281,7 @@ public class Menu extends JFrame {
 		});
 		btnProduit.setForeground(Color.WHITE);
 		btnProduit.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnProduit.setBackground(new Color(0,51,110));
+		btnProduit.setBackground(new Color(0, 0, 71));
 		
 		btnCategorie = new JButton("Catégorie");
 		btnCategorie.addMouseListener(new MouseAdapter() {
@@ -288,7 +294,7 @@ public class Menu extends JFrame {
 				if(b[3]) {
 					btnCategorie.setBackground(new Color(0,51,153));
 				} else {
-					btnCategorie.setBackground(new Color(0,51,110));
+					btnCategorie.setBackground(new Color(0, 0, 71));
 				}
 			}
 			@Override
@@ -308,7 +314,7 @@ public class Menu extends JFrame {
 		});
 		btnCategorie.setForeground(Color.WHITE);
 		btnCategorie.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCategorie.setBackground(new Color(0,51,110));
+		btnCategorie.setBackground(new Color(0, 0, 71));
 		
 		btnVente = new JButton("Ventes");
 		btnVente.addMouseListener(new MouseAdapter() {
@@ -321,7 +327,7 @@ public class Menu extends JFrame {
 				if(b[4]) {
 					btnVente.setBackground(new Color(0,51,153));
 				}else {
-					btnVente.setBackground(new Color(0,51,110));
+					btnVente.setBackground(new Color(0, 0, 71));
 				}
 			}
 			@Override
@@ -341,7 +347,7 @@ public class Menu extends JFrame {
 		});
 		btnVente.setForeground(Color.WHITE);
 		btnVente.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnVente.setBackground(new Color(0,51,110));
+		btnVente.setBackground(new Color(0, 0, 71));
 		
 		btnFacture = new JButton("Factures");
 		btnFacture.addMouseListener(new MouseAdapter() {
@@ -354,7 +360,7 @@ public class Menu extends JFrame {
 				if(b[5]) {
 					btnFacture.setBackground(new Color(0,51,153));
 				}else {
-					btnFacture.setBackground(new Color(0,51,110));
+					btnFacture.setBackground(new Color(0, 0, 71));
 					}
 			}
 			@Override
@@ -374,7 +380,7 @@ public class Menu extends JFrame {
 		});
 		btnFacture.setForeground(Color.WHITE);
 		btnFacture.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnFacture.setBackground(new Color(0,51,110));
+		btnFacture.setBackground(new Color(0, 0, 71));
 		
 		btnFournisseur = new JButton("Fournisseurs");
 		btnFournisseur.addMouseListener(new MouseAdapter() {
@@ -387,7 +393,7 @@ public class Menu extends JFrame {
 				if(b[6]) {
 					btnFournisseur.setBackground(new Color(0,51,153));
 				}else {
-					btnFournisseur.setBackground(new Color(0,51,110));
+					btnFournisseur.setBackground(new Color(0, 0, 71));
 				}
 			}
 			@Override
@@ -402,14 +408,14 @@ public class Menu extends JFrame {
 				setClicked(false);
 				click = "Fournisseurs";
 				typeCollaborateur = "Fournisseur";
-//				scrollPane.setViewportView(UI_pan_Liste_Fournisseur.getPanel());
+				
 				addPanneau(UI_pan_Liste_Fournisseur.getPanel());
 				co.afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
 			}
 		});
 		btnFournisseur.setForeground(Color.WHITE);
 		btnFournisseur.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnFournisseur.setBackground(new Color(0,51,110));
+		btnFournisseur.setBackground(new Color(0, 0, 71));
 		
 		btnParametre = new JButton("Parametre");
 		btnParametre.addActionListener(new ActionListener() {
@@ -422,12 +428,12 @@ public class Menu extends JFrame {
 		});
 		btnParametre.setForeground(Color.WHITE);
 		btnParametre.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnParametre.setBackground(new Color(0,51,110));
+		btnParametre.setBackground(new Color(0, 0, 71));
 		
 		btnNewButton_2_6 = new JButton("");
 		btnNewButton_2_6.setForeground(Color.WHITE);
 		btnNewButton_2_6.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNewButton_2_6.setBackground(new Color(0,51,110));
+		btnNewButton_2_6.setBackground(new Color(0, 0, 71));
 		
 		btnClient = new JButton("Clients");
 		btnClient.addMouseListener(new MouseAdapter() {
@@ -440,7 +446,7 @@ public class Menu extends JFrame {
 				if(b[7]) {
 					btnClient.setBackground(new Color(0,51,153));
 				}else {
-					btnClient.setBackground(new Color(0,51,110));
+					btnClient.setBackground(new Color(0, 0, 71));
 				}
 			}
 			@Override
@@ -463,7 +469,7 @@ public class Menu extends JFrame {
 		
 		btnClient.setForeground(Color.WHITE);
 		btnClient.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnClient.setBackground(new Color(0,51,110));
+		btnClient.setBackground(new Color(0, 0, 71));
 		
 		btnCommande = new JButton("Commandes");
 		btnCommande.addMouseListener(new MouseAdapter() {
@@ -476,7 +482,7 @@ public class Menu extends JFrame {
 				if(b[8]) {
 					btnCommande.setBackground(new Color(0,51,153));
 				}else {
-					btnCommande.setBackground(new Color(0,51,110));
+					btnCommande.setBackground(new Color(0, 0, 71));
 				}
 			}
 			@Override
@@ -499,89 +505,89 @@ public class Menu extends JFrame {
 		
 		btnCommande.setForeground(Color.WHITE);
 		btnCommande.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnCommande.setBackground(new Color(0,51,110));
+		btnCommande.setBackground(new Color(0, 0, 71));
 	}
 	
 	public void btnCliquer(int nb) {
 		switch(nb) {
 		case 1:
 			btnAccueil.setBackground(new Color(0,152, 255));
-			btnProduit.setBackground(new Color(0,51,110));
-			btnCategorie.setBackground(new Color(0,51,110));
-			btnVente.setBackground(new Color(0,51,110));
-			btnFacture.setBackground(new Color(0,51,110));
-			btnFournisseur.setBackground(new Color(0,51,110));
-			btnClient.setBackground(new Color(0,51,110));
-			btnCommande.setBackground(new Color(0,51,110));
+			btnProduit.setBackground(new Color(0, 0, 71));
+			btnCategorie.setBackground(new Color(0, 0, 71));
+			btnVente.setBackground(new Color(0, 0, 71));
+			btnFacture.setBackground(new Color(0, 0, 71));
+			btnFournisseur.setBackground(new Color(0, 0, 71));
+			btnClient.setBackground(new Color(0, 0, 71));
+			btnCommande.setBackground(new Color(0, 0, 71));
 			break;
 		case 2:
-			btnAccueil.setBackground(new Color(0,51,110));
+			btnAccueil.setBackground(new Color(0, 0, 71));
 			btnProduit.setBackground(new Color(0,152, 255));
-			btnCategorie.setBackground(new Color(0,51,110));
-			btnVente.setBackground(new Color(0,51,110));
-			btnFacture.setBackground(new Color(0,51,110));
-			btnFournisseur.setBackground(new Color(0,51,110));
-			btnClient.setBackground(new Color(0,51,110));
-			btnCommande.setBackground(new Color(0,51,110));
+			btnCategorie.setBackground(new Color(0, 0, 71));
+			btnVente.setBackground(new Color(0, 0, 71));
+			btnFacture.setBackground(new Color(0, 0, 71));
+			btnFournisseur.setBackground(new Color(0, 0, 71));
+			btnClient.setBackground(new Color(0, 0, 71));
+			btnCommande.setBackground(new Color(0, 0, 71));
 			break;
 		case 3:
-			btnAccueil.setBackground(new Color(0,51,110));
-			btnProduit.setBackground(new Color(0,51,110));
+			btnAccueil.setBackground(new Color(0, 0, 71));
+			btnProduit.setBackground(new Color(0, 0, 71));
 			btnCategorie.setBackground(new Color(0,152, 255));
-			btnVente.setBackground(new Color(0,51,110));
-			btnFacture.setBackground(new Color(0,51,110));
-			btnFournisseur.setBackground(new Color(0,51,110));
-			btnClient.setBackground(new Color(0,51,110));
-			btnCommande.setBackground(new Color(0,51,110));
+			btnVente.setBackground(new Color(0, 0, 71));
+			btnFacture.setBackground(new Color(0, 0, 71));
+			btnFournisseur.setBackground(new Color(0, 0, 71));
+			btnClient.setBackground(new Color(0, 0, 71));
+			btnCommande.setBackground(new Color(0, 0, 71));
 			break;
 		case 4:
-			btnAccueil.setBackground(new Color(0,51,110));
-			btnProduit.setBackground(new Color(0,51,110));
-			btnCategorie.setBackground(new Color(0,51,110));
+			btnAccueil.setBackground(new Color(0, 0, 71));
+			btnProduit.setBackground(new Color(0, 0, 71));
+			btnCategorie.setBackground(new Color(0, 0, 71));
 			btnVente.setBackground(new Color(0,152, 255));
-			btnFacture.setBackground(new Color(0,51,110));
-			btnFournisseur.setBackground(new Color(0,51,110));
-			btnClient.setBackground(new Color(0,51,110));
-			btnCommande.setBackground(new Color(0,51,110));
+			btnFacture.setBackground(new Color(0, 0, 71));
+			btnFournisseur.setBackground(new Color(0, 0, 71));
+			btnClient.setBackground(new Color(0, 0, 71));
+			btnCommande.setBackground(new Color(0, 0, 71));
 			break;
 		case 5:
-			btnAccueil.setBackground(new Color(0,51,110));
-			btnProduit.setBackground(new Color(0,51,110));
-			btnCategorie.setBackground(new Color(0,51,110));
-			btnVente.setBackground(new Color(0,51,110));
+			btnAccueil.setBackground(new Color(0, 0, 71));
+			btnProduit.setBackground(new Color(0, 0, 71));
+			btnCategorie.setBackground(new Color(0, 0, 71));
+			btnVente.setBackground(new Color(0, 0, 71));
 			btnFacture.setBackground(new Color(0,152, 255));
-			btnFournisseur.setBackground(new Color(0,51,110));
-			btnClient.setBackground(new Color(0,51,110));
-			btnCommande.setBackground(new Color(0,51,110));
+			btnFournisseur.setBackground(new Color(0, 0, 71));
+			btnClient.setBackground(new Color(0, 0, 71));
+			btnCommande.setBackground(new Color(0, 0, 71));
 			break;
 		case 6:
-			btnAccueil.setBackground(new Color(0,51,110));
-			btnProduit.setBackground(new Color(0,51,110));
-			btnCategorie.setBackground(new Color(0,51,110));
-			btnVente.setBackground(new Color(0,51,110));
-			btnFacture.setBackground(new Color(0,51,110));
+			btnAccueil.setBackground(new Color(0, 0, 71));
+			btnProduit.setBackground(new Color(0, 0, 71));
+			btnCategorie.setBackground(new Color(0, 0, 71));
+			btnVente.setBackground(new Color(0, 0, 71));
+			btnFacture.setBackground(new Color(0, 0, 71));
 			btnFournisseur.setBackground(new Color(0,152, 255));
-			btnClient.setBackground(new Color(0,51,110));
-			btnCommande.setBackground(new Color(0,51,110));
+			btnClient.setBackground(new Color(0, 0, 71));
+			btnCommande.setBackground(new Color(0, 0, 71));
 			break;
 		case 7:
-			btnAccueil.setBackground(new Color(0,51,110));
-			btnProduit.setBackground(new Color(0,51,110));
-			btnCategorie.setBackground(new Color(0,51,110));
-			btnVente.setBackground(new Color(0,51,110));
-			btnFacture.setBackground(new Color(0,51,110));
-			btnFournisseur.setBackground(new Color(0,51,110));
+			btnAccueil.setBackground(new Color(0, 0, 71));
+			btnProduit.setBackground(new Color(0, 0, 71));
+			btnCategorie.setBackground(new Color(0, 0, 71));
+			btnVente.setBackground(new Color(0, 0, 71));
+			btnFacture.setBackground(new Color(0, 0, 71));
+			btnFournisseur.setBackground(new Color(0, 0, 71));
 			btnClient.setBackground(new Color(0,152, 255));
-			btnCommande.setBackground(new Color(0,51,110));
+			btnCommande.setBackground(new Color(0, 0, 71));
 			break;
 		case 8:
-			btnAccueil.setBackground(new Color(0,51,110));
-			btnProduit.setBackground(new Color(0,51,110));
-			btnCategorie.setBackground(new Color(0,51,110));
-			btnVente.setBackground(new Color(0,51,110));
-			btnFacture.setBackground(new Color(0,51,110));
-			btnFournisseur.setBackground(new Color(0,51,110));
-			btnClient.setBackground(new Color(0,51,110));
+			btnAccueil.setBackground(new Color(0, 0, 71));
+			btnProduit.setBackground(new Color(0, 0, 71));
+			btnCategorie.setBackground(new Color(0, 0, 71));
+			btnVente.setBackground(new Color(0, 0, 71));
+			btnFacture.setBackground(new Color(0, 0, 71));
+			btnFournisseur.setBackground(new Color(0, 0, 71));
+			btnClient.setBackground(new Color(0, 0, 71));
 			btnCommande.setBackground(new Color(0,152, 255));
 			break;
 		}

@@ -59,16 +59,15 @@ public class PanneauPersonalise extends JPanel{
 		this.roundBottomLeft = roundBottomLeft;
 		this.roundBottomRight = roundBottomRight;
 		this.roundTopRight = roundTopRight;
-		this.c = c;
+		this.setC(c);
 		setOpaque(false);
 	}
-
 	@Override
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g.create();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,  RenderingHints.VALUE_ANTIALIAS_ON);
         
-		GradientPaint gradient  = new GradientPaint(0, 0, Color.decode("#000046"), 0, getHeight(),Color.decode("#000044"));
+		GradientPaint gradient  = new GradientPaint(0, 0, Color.decode("#000046"), 0, getHeight(),Color.decode("000216"));
 		g2.setPaint(gradient);
 //		g2.setColor(c);
          
@@ -134,6 +133,14 @@ public class PanneauPersonalise extends JPanel{
 		
 		return area;
 	}
+
+		public Color getC() {
+			return c;
+		}
+
+		public void setC(Color c) {
+			this.c = c;
+		}
 	
 
 }
