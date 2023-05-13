@@ -15,15 +15,12 @@ public class ControlImageChooser {
 	public ControlImageChooser() {}
 	public Image OuvrirImage(PanneauPersonalise p, JLabel label,File file, Image image) throws IOException {
         JFileChooser jfile = new JFileChooser();
-//        jfile.setCurrentDirectory(new File(System.getProperty("")));
         FileNameExtensionFilter filtre = new FileNameExtensionFilter(".images", "jpg", "png");
         jfile.addChoosableFileFilter(filtre);
         int status = jfile.showOpenDialog(p);
         file = jfile.getSelectedFile();
         if (status == JFileChooser.APPROVE_OPTION) {
         	image = ImageIO.read(file);
-        	System.out.println(file.getAbsolutePath());
-        	System.out.println(file.getName());
         	Zonne_d_Image d = new Zonne_d_Image();
         	String path = file.getAbsolutePath();
         	label.setIcon(d.resizeImage(path, null, label,100));

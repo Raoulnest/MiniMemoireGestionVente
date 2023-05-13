@@ -57,9 +57,12 @@ public class Dialogue extends JDialog {
 	 */
 	public Dialogue(String contenuMessage,Color couleur) {
 		dialog = new JDialog();
+		dialog.setUndecorated(true);
+		dialog.setLocationRelativeTo(null);
 		
 		dialog.getContentPane().setBackground(new Color(0, 102, 153));
-		dialog.setBounds(100, 100, 450, 161);
+		dialog.setSize(450, 161);
+		
 		contentPanel.setBackground(new Color(0, 0, 51));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		{
@@ -89,14 +92,13 @@ public class Dialogue extends JDialog {
 			buttonPane.setBackground(new Color(0, 0, 51));
 			{
 				okButton = new JButton("OK");
+				okButton.setBounds(350, 5, 79, 29);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if((Menu.getClick() == "Reinitialiser") && Menu.isClicked()==true) {
 								System.out.println("Mode : "+Menu.getClick());
 								fermerFenetre(false);
 						}
-						System.out.println("Mode : "+Menu.getClick());
-						System.out.println(Menu.isClicked());
 					}
 				});
 				okButton.setForeground(Color.WHITE);
@@ -105,7 +107,8 @@ public class Dialogue extends JDialog {
 				okButton.setActionCommand("OK");
 				getRootPane().setDefaultButton(okButton);
 			}
-			JButton btnAnnuler = new JButton("Annuler");
+			btnAnnuler = new JButton("Annuler");
+			btnAnnuler.setBounds(6, 5, 77, 29);
 			btnAnnuler.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					fermerFenetre(false);
@@ -113,28 +116,8 @@ public class Dialogue extends JDialog {
 			});
 			btnAnnuler.setForeground(Color.WHITE);
 			btnAnnuler.setFont(new Font("Arial", Font.PLAIN, 14));
-			btnAnnuler.setBackground(new Color(153, 0, 0));
+			btnAnnuler.setBackground(new Color(204, 51, 51));
 			btnAnnuler.setActionCommand("OK");
-			GroupLayout gl_buttonPane = new GroupLayout(buttonPane);
-			gl_buttonPane.setHorizontalGroup(
-				gl_buttonPane.createParallelGroup(Alignment.TRAILING)
-					.addGroup(Alignment.LEADING, gl_buttonPane.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(btnAnnuler)
-						.addPreferredGap(ComponentPlacement.RELATED, 259, Short.MAX_VALUE)
-						.addComponent(okButton, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-						.addGap(5))
-			);
-			gl_buttonPane.setVerticalGroup(
-				gl_buttonPane.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_buttonPane.createSequentialGroup()
-						.addGap(5)
-						.addGroup(gl_buttonPane.createParallelGroup(Alignment.BASELINE)
-							.addComponent(okButton)
-							.addComponent(btnAnnuler, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-			);
-			buttonPane.setLayout(gl_buttonPane);
 		}
 		GroupLayout groupLayout = new GroupLayout(dialog.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -153,6 +136,9 @@ public class Dialogue extends JDialog {
 					.addComponent(buttonPane, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
 					.addGap(0))
 		);
+		buttonPane.setLayout(null);
+		buttonPane.add(btnAnnuler);
+		buttonPane.add(okButton);
 		dialog.getContentPane().setLayout(groupLayout);
 	}
 	public static JDialog getDialog() {
@@ -160,6 +146,7 @@ public class Dialogue extends JDialog {
 	}
 	public static void fermerFenetre(boolean fen1) {
         Dialogue.dialog.setVisible(fen1);
+        
 	}
 	public static void setDialog(JDialog dialog) {
 		Dialogue.dialog = dialog;
@@ -171,6 +158,7 @@ public class Dialogue extends JDialog {
 		Dialogue.contenuMessage = contenuMessage;
 	}
 	static boolean okBtn =  false;
+	private JButton btnAnnuler;
 	public  boolean isOkBtn() {
 		return Dialogue.okBtn;
 	}

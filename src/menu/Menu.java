@@ -461,7 +461,6 @@ public class Menu extends JFrame {
 				setClicked(false);
 				click = "Clients";
 				typeCollaborateur = "Client";
-//				scrollPane.setViewportView(UI_pan_Liste_Fournisseur.getPanel());
 				addPanneau(UI_pan_Liste_Fournisseur.getPanel());
 				co.afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
 			}
@@ -497,17 +496,14 @@ public class Menu extends JFrame {
 				setClicked(false);
 				click = "Commandes";
 				typeCollaborateur = "Commande";
-//				scrollPane.setViewportView(Pan_dashboard.getPanel());
 				addPanneau(UI_pan_Liste_Fournisseur.getPanel());
 				co.afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
 			}
 		});
-		
 		btnCommande.setForeground(Color.WHITE);
 		btnCommande.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnCommande.setBackground(new Color(0, 0, 71));
 	}
-	
 	public void btnCliquer(int nb) {
 		switch(nb) {
 		case 1:
@@ -603,19 +599,14 @@ public class Menu extends JFrame {
 	}
 	public static void setClicked(boolean clicked) {
 		Menu.clicked = clicked;
-		}
-		public static String getClick() {
-			return click;
-		}
-		public static void setClick(String click) {
-			Menu.click = click;
-		}
-//	public static JScrollPane getScrollPane() {
-//		return scrollPane;
-//	}
-//	public static void setScrollPane(JScrollPane scrollPane) {
-//		Menu.scrollPane = scrollPane;
-//	}
+	}
+	public static String getClick() {
+		return click;
+	}
+	public static void setClick(String click) {
+		Menu.click = click;
+	}
+		
 	public int getX() {
 		return (int) X;
 	}
