@@ -31,7 +31,7 @@ public class ControlleurProduit {
 	
 //	methode pour ajouter des produits dans la table produit
 	public boolean ajoutProduit(String reference, String designation,  int idCategorie,  int idFournisseur, double prixUnitaire, double quantite, String unite, String image) {
-		String requete = "INSERT INTO produit(reference, designation, idCategorie, idFournisseur, prixUnitaire, quantite, unite, image)VALUES (?,?,?,?,?,?,?,?)";
+		String requete = "INSERT INTO stock(reference, designation, idCategorie, idFournisseur, prixUnitaire, quantite, unite, image)VALUES (?,?,?,?,?,?,?,?)";
 		boolean est_ajoute = false;
 		try {
 			java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
@@ -58,7 +58,7 @@ public class ControlleurProduit {
 	
 //	methode pour mettre a jour les produits dans le table produit
 	public boolean modifierProduit(String reference, String designation,  int idCategorie,  int idFournisseur, double prixUnitaire, double quantite, String unite, String image) {
-		String requete = "UPDATE produit SET designation=?,idCategorie=?,idFournisseur=?,prixUnitaire=?,quantite=?,unite=?,image=? WHERE reference='"+reference+"'";
+		String requete = "UPDATE stock SET designation=?,idCategorie=?,idFournisseur=?,prixUnitaire=?,quantite=?,unite=?,image=? WHERE reference='"+reference+"'";
 		boolean est_modifie = false;
 		try {
 			 java.sql.PreparedStatement modifier = ConnectionDB.getConnect().prepareStatement(requete);
@@ -83,7 +83,7 @@ public class ControlleurProduit {
 	}
 //	methode pour supprimer les donnees dans la table produit
 	public boolean supprimerProduit(String reference, boolean isSelected) {
-		String requete = "DELETE FROM produit WHERE reference='"+reference+"'";
+		String requete = "DELETE FROM stock WHERE reference='"+reference+"'";
 		boolean est_sup = false;
 		if(isSelected==false) {
 			System.out.println("Veuillez selectionner l'element dans ce tableau : ");
@@ -103,8 +103,8 @@ public class ControlleurProduit {
 //	methode pour obtenir la liste des produits
 	public ArrayList<Stock> getListeProduit(String recherche) {
 		ArrayList<Stock> ListeProduit = new ArrayList<Stock>();
-	        String sql = "SELECT * from produit where 1";
-	        String sql1 = "SELECT * from produit where reference LIKE '"+recherche+"%' or idCategorie LIKE '"+recherche+"%' or idFournisseur LIKE '"+recherche+"%' or designation LIKE '"+recherche+"%' or unite LIKE '"+recherche+"%'";
+	        String sql = "SELECT * from stock where 1";
+	        String sql1 = "SELECT * from stock where reference LIKE '"+recherche+"%' or idCategorie LIKE '"+recherche+"%' or idFournisseur LIKE '"+recherche+"%' or designation LIKE '"+recherche+"%' or unite LIKE '"+recherche+"%'";
 	        compteProduit = 0;
 	        try {
 	            st=(Statement) ConnectionDB.getConnect().createStatement();
@@ -131,11 +131,12 @@ public class ControlleurProduit {
 	private static boolean elt_select = false;
 	private static int compteProduit;
 	
-	public void afficheListe(JTable table,String recherche) {
-		
-		ArrayList<Stock> list = getListeProduit(recherche);
-		tableParDefaut = new DefaultTableModel(null,colonne);
-	        for(int i = 0 ; i < list.size() ; i++) {
+	public void afficheListe(JTable table,String recherche) 
+	{	
+			ArrayList<Stock> list = getListeProduit(recherche);
+			tableParDefaut = new DefaultTableModel(null,colonne);
+	        for(int i = 0 ; i < list.size() ; i++)
+	        {
 	        	liste[0] = list.get(i).getReference();
 	        	liste[1] = list.get(i).getDesignation();
 	        	liste[2] = list.get(i).getIdCategorie();
@@ -160,10 +161,38 @@ public class ControlleurProduit {
 	        table.setModel(tableParDefaut);
 	        UI_pan_Liste_Produit.setLblPan_Liste_Produit("Liste des produits existant : "+ControlleurProduit.getCompteProduit());
 	}
+//Affichage du tableau dans la liste des commandes
+	 String[] colonne2 = {	"ID Produit", "Designation", "P. Unitaire"};
+	
+	public void afficheListeListeProduit(JTable table,String recherche) 
+	{	
+			ArrayList<Stock> list = getListeProduit(recherche);
+			tableParDefaut = new DefaultTableModel(null,colonne2);
+	        for(int i = 0 ; i < list.size() ; i++)
+	        {
+	        	liste[0] = list.get(i).getReference();
+	        	liste[1] = list.get(i).getDesignation();
+	        	liste[2] = list.get(i).getPrixUnitaire();
+
+	        	tableParDefaut.addRow(liste);
+	        }
+	        table.addMouseListener(new MouseAdapter() {
+	            	@Override
+	            	public void mouseClicked(MouseEvent arg0) {
+	            		tableParDefaut = (DefaultTableModel) table.getModel();
+	            		int select = table.getSelectedRow();
+	            		reference = table.getValueAt(select, 0).toString();
+	            		
+	            		elt_select = true;
+	            	}
+	         });
+	        table.setModel(tableParDefaut);
+	        UI_pan_Liste_Produit.setLblPan_Liste_Produit("Liste des produits existant : "+ControlleurProduit.getCompteProduit());
+	}
 //	Obtnenir l'element selectionné
 public void getElement(JTextField reference, JTextField designation, JComboBox<Integer> categorie, JComboBox<Integer> fournisseur, JTextField prixUnitaire, JTextField quantite, JComboBox<String> unite) {
 
-		String requete = "SELECT * FROM produit WHERE reference = '"+ControlleurProduit.getReference()+"'";
+		String requete = "SELECT * FROM stock WHERE reference = '"+ControlleurProduit.getReference()+"'";
         try {
             st=(Statement) ConnectionDB.getConnect().createStatement();
             rs = (ResultSet) st.executeQuery(requete);

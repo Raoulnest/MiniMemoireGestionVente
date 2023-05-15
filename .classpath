@@ -7,6 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="D:/My Personal Documents/LOGICIELS/JAVA/mysql-connector.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/ConnectionMySQL"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

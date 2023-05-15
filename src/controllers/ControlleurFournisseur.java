@@ -24,16 +24,17 @@ import uiApplication.fournisseurs.UI_pan_Liste_Fournisseur;
 	private static Statement st;
 	private static String sary;
 	private static String typeCollaborateur;
+	
 	public ControlleurFournisseur() {
 	}
 	
 //	methode pour ajouter des fournisseurs dans la table fournisseur
-	public boolean ajoutFournisseur(String nom_entreprise, String adresseF, String nom_et_prenom, int telephone, String emailF) {
-		String requete = "INSERT INTO fournisseur(nom_entreprise, adresseF, nom_et_prenom, telephone, emailF, type)VALUES (?,?,?,?,?,?)";
+	public boolean ajoutFournisseur(String reference, String nom_entreprise, String adresseF, String nom_et_prenom, int telephone, String emailF) {
+		String requete = "INSERT INTO fournisseur(reference, nom_entreprise, adresseF, nom_et_prenom, telephone, emailF, type)VALUES (LAST_INSERT_ID(),?,?,?,?,?,?)";
 		boolean est_ajoute = false;
 		try {
 			java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
-          
+//			insert.setString(1,reference);
 			insert.setString(1,nom_entreprise);
 	        insert.setString(2,adresseF);
 	        insert.setString(3,nom_et_prenom);
@@ -108,7 +109,7 @@ import uiApplication.fournisseurs.UI_pan_Liste_Fournisseur;
 	            	 rs = (ResultSet) st.executeQuery(sql1);
 	            }
 	            while(rs.next()){
-	            	ListeFournisseur.add(new Fournisseur(rs.getInt("reference"),rs.getString("nom_entreprise"), rs.getString("adresseF"),  rs.getString("nom_et_prenom"),rs.getInt("telephone"), rs.getString("emailF")));
+	            	ListeFournisseur.add(new Fournisseur(rs.getString("reference"),rs.getString("nom_entreprise"), rs.getString("adresseF"),  rs.getString("nom_et_prenom"),rs.getInt("telephone"), rs.getString("emailF")));
 	            	compteFournisseur++;
 	            }
 	        } catch (SQLException ex) {

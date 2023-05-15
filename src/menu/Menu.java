@@ -23,6 +23,7 @@ import javax.swing.border.MatteBorder;
 
 import controllers.ControlleurFournisseur;
 import controllers.ControlleurProduit;
+import uiApplication.commandes.UI_pan_Liste_Commande;
 import uiApplication.fournisseurs.UI_pan_Liste_Fournisseur;
 import uiApplication.produit.UI_pan_Liste_Produit;
 import uiPersonalisee.ControlFenetre;
@@ -45,6 +46,7 @@ public class Menu extends JFrame {
 
 	UI_pan_Liste_Produit p = new UI_pan_Liste_Produit();
 	Pan_dashboard dash = new Pan_dashboard();
+	UI_pan_Liste_Commande panCom = new UI_pan_Liste_Commande();
 	UI_pan_Liste_Fournisseur f = new UI_pan_Liste_Fournisseur(typeCollaborateur);
 	static String typeCollaborateur;
 	private PanneauPersonalise pan_btn;
@@ -98,9 +100,9 @@ public class Menu extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 284, GroupLayout.PREFERRED_SIZE)
+					.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
 					.addContainerGap())
 				.addComponent(panSystem, GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
 		);
@@ -110,41 +112,34 @@ public class Menu extends JFrame {
 					.addComponent(panSystem, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
-						.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 519, Short.MAX_VALUE))
+						.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 519, Short.MAX_VALUE)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		panel.setLayout(new BorderLayout(0, 0));
 		GroupLayout gl_pan_btn = new GroupLayout(pan_btn);
 		gl_pan_btn.setHorizontalGroup(
-			gl_pan_btn.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_pan_btn.createSequentialGroup()
-					.addContainerGap()
+			gl_pan_btn.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_pan_btn.createSequentialGroup()
+					.addGap(6)
 					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnCommande, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+						.addComponent(btnAccueil, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
 						.addGroup(gl_pan_btn.createSequentialGroup()
-							.addComponent(btnCommande, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-							.addContainerGap())
+							.addComponent(btnParametre, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnNewButton_2_6, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
 						.addGroup(gl_pan_btn.createSequentialGroup()
+							.addGroup(gl_pan_btn.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(btnVente, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnProduit, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+								.addComponent(btnFournisseur, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnAccueil, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_pan_btn.createSequentialGroup()
-									.addComponent(btnProduit, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-									.addGap(6)
-									.addComponent(btnCategorie, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_pan_btn.createSequentialGroup()
-									.addComponent(btnVente, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-									.addGap(6)
-									.addComponent(btnFacture, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_pan_btn.createSequentialGroup()
-									.addComponent(btnFournisseur, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-									.addGap(6)
-									.addComponent(btnClient, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_pan_btn.createSequentialGroup()
-									.addComponent(btnParametre, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
-									.addGap(12)
-									.addComponent(btnNewButton_2_6, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addGap(6))))
+								.addComponent(btnClient, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+								.addComponent(btnFacture, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+								.addComponent(btnCategorie, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))))
+					.addContainerGap())
 		);
 		gl_pan_btn.setVerticalGroup(
 			gl_pan_btn.createParallelGroup(Alignment.LEADING)
@@ -154,24 +149,22 @@ public class Menu extends JFrame {
 					.addGap(24)
 					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnProduit, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_pan_btn.createSequentialGroup()
-							.addGap(2)
-							.addComponent(btnCategorie, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)))
-					.addGap(16)
+						.addComponent(btnCategorie, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+					.addGap(21)
 					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnVente, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnFacture, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
-					.addGap(16)
-					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnFournisseur, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnClient, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnVente, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnFacture, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
+					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnFournisseur, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnClient, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
+					.addGap(29)
 					.addComponent(btnCommande, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnNewButton_2_6, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnParametre, GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
-					.addGap(6))
+					.addGap(79)
+					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnParametre, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNewButton_2_6, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
 		);
 		pan_btn.setLayout(gl_pan_btn);
 		panSystem.setLayout(new BorderLayout(0, 0));
@@ -308,8 +301,6 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				click = "Categories";
 				clicked=true;
-
-				addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnCategorie.setForeground(Color.WHITE);
@@ -407,8 +398,7 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Fournisseurs";
-				typeCollaborateur = "Fournisseur";
-				
+				typeCollaborateur = "Fournisseur";				
 				addPanneau(UI_pan_Liste_Fournisseur.getPanel());
 				co.afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
 			}
@@ -496,8 +486,7 @@ public class Menu extends JFrame {
 				setClicked(false);
 				click = "Commandes";
 				typeCollaborateur = "Commande";
-				addPanneau(UI_pan_Liste_Fournisseur.getPanel());
-				co.afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
+				addPanneau(UI_pan_Liste_Commande.getPanel());
 			}
 		});
 		btnCommande.setForeground(Color.WHITE);

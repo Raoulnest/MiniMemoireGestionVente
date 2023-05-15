@@ -121,7 +121,7 @@ public class UI_pan_Liste_Fournisseur extends JPanel {
 		
 		txt_recherche = new JTextField();
 		txt_recherche.setBackground(new Color(0, 0, 51));
-		txt_recherche.setSelectedTextColor(Color.red);
+		txt_recherche.setSelectedTextColor(Color.blue);
 		txt_recherche.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
 		txt_recherche.addKeyListener(new KeyAdapter() {
 			@Override

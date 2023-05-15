@@ -1,7 +1,7 @@
 package models;
 
 public class Fournisseur {
-	private int reference;
+	private String reference;
 	private String nom_entreprise;
 	private String adresseF;
 	private String nom_et_prenom;
@@ -11,7 +11,7 @@ public class Fournisseur {
 	public Fournisseur() {
 		
 	}
-	public Fournisseur(int reference, String nom_entreprise, String adresseF, String nom_et_prenom, int telephone, String emailF) {
+	public Fournisseur(String reference, String nom_entreprise, String adresseF, String nom_et_prenom, int telephone, String emailF) {
 		this.reference = reference;
 		this.nom_entreprise = nom_entreprise;
 		this.adresseF = adresseF;
@@ -19,10 +19,10 @@ public class Fournisseur {
 		this.telephone = telephone;
 		this.emailF = emailF;
 	}
-	public int getReference() {
+	public String getReference() {
 		return reference;
 	}
-	public void setReference(int reference) {
+	public void setReference(String reference) {
 		this.reference = reference;
 	}
 	public String getNom_entreprise() {
