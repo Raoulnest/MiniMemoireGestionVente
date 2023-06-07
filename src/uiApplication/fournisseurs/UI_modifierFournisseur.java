@@ -17,20 +17,19 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
-import controllers.ControlleurFournisseur;
+import models.Fournisseur;
 import uiPersonalisee.ControlFenetre;
 import uiPersonalisee.PanneauPersonalise;
 public class UI_modifierFournisseur extends JDialog {
 
 	private final PanneauPersonalise contentPanel = new PanneauPersonalise(10,10,10,10,new Color(0, 0, 51));
 	private static JDialog dialog ;
-	ControlleurFournisseur fournisseur = new ControlleurFournisseur();
+	Fournisseur fournisseur = new Fournisseur();
 	public static JDialog getDialog() {
 		return dialog;
 	}
@@ -46,8 +45,6 @@ public class UI_modifierFournisseur extends JDialog {
 	private JButton btnRetour;
 	File file = null;
 	Image image = null;
-	
-	private JTable table;
 	private static double X,Y,x,y;
 	private JTextField nom_et_prenom;
 	private JTextField nom_entreprise;
@@ -55,6 +52,13 @@ public class UI_modifierFournisseur extends JDialog {
 	private JTextField emailF;
 	private PanneauPersonalise panel;
 	private JTextField adresseF;
+	private JPanel panBtnExit;
+	private JLabel lblNewLabel_1_1;
+	private JLabel lblNewLabel_1_1_2;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1_1_1;
+	private JLabel lblNewLabel_1;
+	private JTextField txtReference;
 	
 	public static String getContenuMessage() {
 		return contenuMessage;
@@ -94,7 +98,28 @@ public class UI_modifierFournisseur extends JDialog {
 	 */
 	public UI_modifierFournisseur() {
 		initialise();
-		fournisseur.getElement(nom_entreprise, adresseF, nom_et_prenom, telephone, emailF);
+		fournisseur.getElement(txtReference,nom_entreprise, adresseF, nom_et_prenom, telephone, emailF);
+		contentPanel.setLayout(null);
+		contentPanel.add(panBtnExit);
+		contentPanel.add(panel);
+		contentPanel.add(lblNewLabel_1_1);
+		contentPanel.add(lblNewLabel_1_1_2);
+		contentPanel.add(nom_entreprise);
+		contentPanel.add(adresseF);
+		contentPanel.add(lblNewLabel);
+		contentPanel.add(txtReference);
+		contentPanel.add(nom_et_prenom);
+		contentPanel.add(emailF);
+		contentPanel.add(lblNewLabel_1_1_1);
+		contentPanel.add(telephone);
+		contentPanel.add(lblNewLabel_1);
+
+		
+		JLabel lblNewLabel_1_1_3 = new JLabel("Reférence");
+		lblNewLabel_1_1_3.setForeground(Color.WHITE);
+		lblNewLabel_1_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1_1_3.setBounds(110, 74, 241, 34);
+		contentPanel.add(lblNewLabel_1_1_3);
 	}
 	public void initialise() {
 		dialog = new JDialog();
@@ -127,7 +152,7 @@ public class UI_modifierFournisseur extends JDialog {
 				btnEnregistrer = new JButton("Enregistrer");
 				btnEnregistrer.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						String refer = ControlleurFournisseur.getReference();
+						String refer = txtReference.getText();
 						String nom = nom_et_prenom.getText();
 						String nomE = nom_entreprise.getText();
 						String adresse = adresseF.getText();
@@ -200,22 +225,37 @@ public class UI_modifierFournisseur extends JDialog {
 		);
 		buttonPane.setLayout(gl_buttonPane);;
 		
-		JPanel panBtnExit = new JPanel();
+		panBtnExit = new JPanel();
+		panBtnExit.setBounds(0, 0, 757, 25);
 		
-		JLabel lblNewLabel_1 = new JLabel("Nom et Prénoms");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel = new JLabel("Nom et Prénoms");
+		lblNewLabel.setBounds(110, 149, 241, 34);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setForeground(Color.WHITE);
+		
+		
+		txtReference = new JTextField();
+		txtReference.setSelectedTextColor(Color.RED);
+		txtReference.setForeground(Color.WHITE);
+		txtReference.setFont(new Font("Cambria", Font.PLAIN, 22));
+		txtReference.setColumns(10);
+		txtReference.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
+		txtReference.setBackground(new Color(0, 0, 51));
+		txtReference.setBounds(110, 109, 241, 31);
+		
 		
 		nom_et_prenom = new JTextField();
+		nom_et_prenom.setBounds(110, 184, 241, 31);
 		nom_et_prenom.setFont(new Font("Cambria", Font.PLAIN, 22));
 		nom_et_prenom.setBackground(new Color(0, 0, 51));
 		nom_et_prenom.setForeground(Color.WHITE);
 		nom_et_prenom.setSelectedTextColor(Color.red);
 		nom_et_prenom.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
-		lblNewLabel_1.setLabelFor(nom_et_prenom);
+		lblNewLabel.setLabelFor(nom_et_prenom);
 		nom_et_prenom.setColumns(10);
 		
 		nom_entreprise = new JTextField();
+		nom_entreprise.setBounds(389, 109, 241, 31);
 		nom_entreprise.setFont(new Font("Cambria", Font.PLAIN, 22));
 		nom_entreprise.setBackground(new Color(0, 0, 51));
 		nom_entreprise.setForeground(Color.WHITE);
@@ -223,7 +263,8 @@ public class UI_modifierFournisseur extends JDialog {
 		nom_entreprise.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
 		nom_entreprise.setColumns(10);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Nom d'Entreprise");
+		lblNewLabel_1_1 = new JLabel("Nom d'Entreprise");
+		lblNewLabel_1_1.setBounds(389, 74, 241, 34);
 		lblNewLabel_1_1.setLabelFor(nom_entreprise);
 		lblNewLabel_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -233,6 +274,7 @@ public class UI_modifierFournisseur extends JDialog {
 		panBtnExit.add(panel_2, BorderLayout.CENTER);
 		
 		telephone = new JTextField();
+		telephone.setBounds(110, 250, 241, 31);
 		telephone.setFont(new Font("Cambria", Font.PLAIN, 22));
 		telephone.setBackground(new Color(0, 0, 51));
 		telephone.setForeground(Color.WHITE);
@@ -240,16 +282,19 @@ public class UI_modifierFournisseur extends JDialog {
 		telephone.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
 		telephone.setColumns(10);
 		
-		JLabel lblNewLabel_1_3 = new JLabel("Ligne Téléphonique");
-		lblNewLabel_1_3.setLabelFor(telephone);
-		lblNewLabel_1_3.setForeground(Color.WHITE);
-		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1 = new JLabel("Ligne Téléphonique");
+		lblNewLabel_1.setBounds(110, 226, 241, 25);
+		lblNewLabel_1.setLabelFor(telephone);
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		JLabel lblNewLabel_1_1_1 = new JLabel("E-mail");
+		lblNewLabel_1_1_1 = new JLabel("E-mail");
+		lblNewLabel_1_1_1.setBounds(389, 226, 241, 25);
 		lblNewLabel_1_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		emailF = new JTextField();
+		emailF.setBounds(389, 250, 241, 31);
 		emailF.setFont(new Font("Cambria", Font.PLAIN, 22));
 		emailF.setBackground(new Color(0, 0, 51));
 		emailF.setForeground(Color.WHITE);
@@ -259,96 +304,27 @@ public class UI_modifierFournisseur extends JDialog {
 		emailF.setColumns(10);
 		
 		panel = new PanneauPersonalise(10,10,10,10,new Color(0, 102, 153));
+		panel.setBounds(14, 31, 729, 31);
 		
-		JLabel lblTitre = new JLabel("Ajouter nouveau "+ControlleurFournisseur.getTypeCollaborateur());
+		JLabel lblTitre = new JLabel("Ajouter nouveau "+Fournisseur.getTypeCollaborateur());
 		panel.add(lblTitre);
 		lblTitre.setForeground(Color.WHITE);
 		lblTitre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitre.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
-		JLabel lblNewLabel_1_1_2 = new JLabel("Adresse");
+		lblNewLabel_1_1_2 = new JLabel("Adresse");
+		lblNewLabel_1_1_2.setBounds(389, 149, 241, 34);
 		lblNewLabel_1_1_2.setForeground(Color.WHITE);
 		lblNewLabel_1_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		adresseF = new JTextField();
+		adresseF.setBounds(389, 184, 241, 31);
 		adresseF.setFont(new Font("Cambria", Font.PLAIN, 22));
 		adresseF.setBackground(new Color(0, 0, 51));
 		adresseF.setForeground(Color.WHITE);
 		adresseF.setSelectedTextColor(Color.red);
 		adresseF.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
 		adresseF.setColumns(10);
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(panBtnExit, GroupLayout.PREFERRED_SIZE, 757, GroupLayout.PREFERRED_SIZE)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(14)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
-					.addGap(14))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(110)
-					.addComponent(lblNewLabel_1_1, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-					.addGap(36)
-					.addComponent(lblNewLabel_1_1_2, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-					.addGap(129))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(110)
-					.addComponent(nom_entreprise, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-					.addGap(36)
-					.addComponent(adresseF, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-					.addGap(129))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(110)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-						.addComponent(nom_et_prenom, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
-					.addGap(36)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(emailF, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-						.addComponent(lblNewLabel_1_1_1, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
-					.addGap(129))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(110)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(telephone, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
-						.addComponent(lblNewLabel_1_3, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE))
-					.addGap(406))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(panBtnExit, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1_1_2, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
-					.addGap(1)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(nom_entreprise, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addComponent(adresseF, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-							.addGap(1)
-							.addComponent(nom_et_prenom, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(11)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(24)
-									.addComponent(emailF, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))))
-					.addGap(11)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(24)
-							.addComponent(telephone, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
-		);
-		contentPanel.setLayout(gl_contentPanel);
 		dialog.getContentPane().setLayout(groupLayout);
 		
 	}

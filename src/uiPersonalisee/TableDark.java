@@ -36,14 +36,12 @@ public class TableDark extends JTable{
     public void setTailleLigne(int tailleLigne) {
         this.tailleLigne = tailleLigne;
     }
-        
         public void fixTable(JScrollPane scrollPane){
             scrollPane.setVerticalScrollBar(new ScrollPersonalise());
             JPanel p = new JPanel();
             p.setBackground(new Color(30,30,30));
             scrollPane.setCorner(JScrollPane.UPPER_LEADING_CORNER, p);
             scrollPane.getViewport().setBackground(new Color(30,30,30));
-        
     }
 	private class EnteteTable extends DefaultTableCellRenderer{
 		@Override
@@ -55,9 +53,9 @@ public class TableDark extends JTable{
                         com.setFont(com.getFont().deriveFont(Font.BOLD, taillePolice));
 			return com;
 		}
-                Color bgColor = new Color(30,30,30);
-                Color fgColor = new Color(200,200,200);
-                int taillePolice = 12;
+            Color bgColor = new Color(0,0,30);
+            Color fgColor = new Color(200,200,200);
+            int taillePolice = 12;
 
         public Color getBgColor() {
             return bgColor;
@@ -89,22 +87,23 @@ public class TableDark extends JTable{
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             Component com =super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            com.setFont(com.getFont().deriveFont(Font.PLAIN, 12));
             if(isCellSelected(row, column)){
                 if( row % 2 ==0){
-                    com.setBackground(new Color(33,103,153));
+                    com.setBackground(new Color(0,0,20));
                     
                     com.setForeground(fgColor);
                 }else{
-                    com.setBackground(new Color(29,36,127));
+                    com.setBackground(new Color(0,0,20));
                     com.setForeground(fgColor);
                 }
             }else{
                 if( row % 2 ==0){
-                    com.setBackground(new Color(50,50,50));
+                    com.setBackground(new Color(3,13,73));
                     
                     com.setForeground(fgColor);
                 }else{
-                    com.setBackground(bgColor);
+                    com.setBackground(new Color(0,0,50));
                     com.setForeground(fgColor);
                 }
             }

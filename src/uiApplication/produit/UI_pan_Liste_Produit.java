@@ -15,11 +15,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
-
-import controllers.ControlleurProduit;
+import javax.swing.border.MatteBorder;
 import menu.Dialogue;
+import models.Stock;
 import uiPersonalisee.ScrollPersonalise;
 import uiPersonalisee.TableDark;
 import uiPersonalisee.Zonne_d_Image;
@@ -34,7 +33,7 @@ public class UI_pan_Liste_Produit extends JPanel {
 	public static void setLblPan_Liste_Produit(String titre) {
 		UI_pan_Liste_Produit.lblPan_Liste_Produit.setText(titre);
 	}
-	ControlleurProduit produit = new ControlleurProduit();
+	Stock produit = new Stock();
 	public static JPanel getPanel() {
 		return panel;
 	}
@@ -73,7 +72,7 @@ public class UI_pan_Liste_Produit extends JPanel {
 		btnModifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UI_modifierProduit modifier = new UI_modifierProduit();
-				if(ControlleurProduit.isElt_select()) {
+				if(Stock.isElt_select()) {
 					modifier.fermerFenetre(true);
 				}else {
 					 Dialogue diag = new Dialogue("Veuillez selectionner d'abord un element ! ",Color.RED);
@@ -88,8 +87,8 @@ public class UI_pan_Liste_Produit extends JPanel {
 		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(ControlleurProduit.isElt_select()) {
-					if(produit.supprimerProduit(ControlleurProduit.getReference(),ControlleurProduit.isElt_select())) {
+				if(Stock.isElt_select()) {
+					if(produit.supprimerProduit(produit.getSelect(),Stock.isElt_select())) {
 						produit.afficheListe(table,"");
 					}else {
 						System.out.println("Probleme de suppression");
@@ -98,7 +97,6 @@ public class UI_pan_Liste_Produit extends JPanel {
 					 Dialogue diag = new Dialogue("Veuillez selectionner d'abord un element ! ",Color.RED);
 						diag.fermerFenetre(true);
 				}
-				
 			}
 		});
 		btnSupprimer.setForeground(Color.WHITE);
@@ -108,7 +106,6 @@ public class UI_pan_Liste_Produit extends JPanel {
 		JButton btnNewButton_1_1 = new JButton("Details");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				
 			}
 		});

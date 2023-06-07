@@ -15,30 +15,26 @@ import java.io.IOException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
-import controllers.ControlleurProduit;
+import models.Stock;
 import uiPersonalisee.ControlFenetre;
 import uiPersonalisee.ControlImageChooser;
 import uiPersonalisee.PanneauPersonalise;
-import uiPersonalisee.Zonne_d_Image;
-
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
 public class UI_modifierProduit extends JDialog {
 
 	private final PanneauPersonalise contentPanel = new PanneauPersonalise(10,10,10,10,new Color(0, 0, 51));
 	private static JDialog dialog ;
-	ControlleurProduit produit = new ControlleurProduit();
+	Stock produit = new Stock();
 	public static JDialog getDialog() {
 		return dialog;
 	}
@@ -56,7 +52,6 @@ public class UI_modifierProduit extends JDialog {
 	Image image = null;
 	static JLabel lbl_sary;
 	
-	private JTable table;
 	private static double X,Y,x,y;
 	private JTextField reference;
 	private JTextField designation;
@@ -131,12 +126,6 @@ public class UI_modifierProduit extends JDialog {
 		panImageView.setLayout(new BorderLayout(0, 0));
 		
 		lbl_sary = new JLabel("");
-		
-		Zonne_d_Image zi = new Zonne_d_Image();
-		System.out.println(ControlleurProduit.getImage());
-		lbl_sary.setIcon(zi.resizeImage(ControlleurProduit.getImage(),null,lbl_sary,200));
-//		lbl_sary.setIcon(new ImageIcon(UI_modifierProduit.class.getResource("src/uiApplication/pictures/produits/NESTOR(1).JPG")));
-
 		lbl_sary.setHorizontalAlignment(SwingConstants.CENTER);
 		panImageView.add(lbl_sary, BorderLayout.CENTER);
 		
@@ -276,12 +265,13 @@ public class UI_modifierProduit extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						String ref = reference.getText();
 						String des = designation.getText();
-						int idCategorie = 2;
-						int idFournisseur = 1;
+						String idCategorie = produit.changeNomtoId("reference", "categorie","nomCategorie", categorie.getSelectedItem().toString());
+						String idFournisseur = produit.changeNomtoId("reference", "fournisseur","nom_et_prenom", fournisseur.getSelectedItem().toString());
 						double pUnitaire = Double.parseDouble(prixUnitaire.getText());
 						double quant = Double.parseDouble(quantite.getText());
 						String unit = unite.getSelectedItem().toString();
 						String image = "src/uiApplication/pictures/produits/'"+ControlImageChooser.getFileName()+"'".replace('\\', '/');
+						
 						if(produit.modifierProduit(ref, des, idCategorie, idFournisseur, pUnitaire, quant, unit, image)) {
 							System.out.println("Produit a  été modifié avec succès! ");
 						}else {
@@ -390,14 +380,17 @@ public class UI_modifierProduit extends JDialog {
 		panBtnExit.add(panel_2, BorderLayout.CENTER);
 		
 		categorie = new JComboBox();
-		categorie.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
-		
+		Stock st = new Stock();
+		String listeCategorie[] = st.afficheListe("nomCategorie", "categorie","");
+		categorie.setModel(new DefaultComboBoxModel<String>(listeCategorie));
 		categorie.setForeground(Color.BLUE);
 		categorie.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		
 		lblNewLabel_1_1.setLabelFor(categorie);
 		
 		fournisseur = new JComboBox();
-		fournisseur.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		String listeFournisseur[] = st.afficheListe("nom_et_prenom", "fournisseur","");
+		fournisseur.setModel(new DefaultComboBoxModel(listeFournisseur));
 		fournisseur.setForeground(Color.BLUE);
 		fournisseur.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		

@@ -14,9 +14,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import controllers.ControlleurFournisseur;
-import controllers.ControlleurProduit;
-import uiApplication.fournisseurs.UI_pan_Liste_Fournisseur;
+import models.Fournisseur;
+import models.Stock;
 import uiApplication.produit.UI_pan_Liste_Produit;
 import uiPersonalisee.PanneauPersonalise;
 
@@ -26,7 +25,7 @@ public class Pan_dashboard extends JPanel {
 	 */
 	static JPanel panel = new JPanel();
 	
-ControlleurFournisseur co =new ControlleurFournisseur();
+Fournisseur co =new Fournisseur();
 	public static JPanel getPanel() {
 		return panel;
 	}
@@ -46,10 +45,10 @@ ControlleurFournisseur co =new ControlleurFournisseur();
 	}
 	public void initialise() {
 		panel.setBackground(new Color(0, 0, 41));
-		JLabel lblApkGest = new JLabel("Application GESTION DES STOCKS");
+		JLabel lblApkGest = new JLabel("G-STOCK");
 		lblApkGest.setHorizontalAlignment(SwingConstants.CENTER);
 		lblApkGest.setForeground(Color.WHITE);
-		lblApkGest.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		lblApkGest.setFont(new Font("Century", Font.PLAIN, 28));
 
 		PanneauPersonalise pan_statistique = new PanneauPersonalise(10,10,10,10,new Color(0,51,110));
 		pan_statistique.setForeground(Color.WHITE);
@@ -293,6 +292,6 @@ ControlleurFournisseur co =new ControlleurFournisseur();
 					.addComponent(pan_statistique, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_pan_dashboard);
-		btnProduit.setText(""+(ControlleurProduit.getCompteProduit()));
+		btnProduit.setText(""+(Stock.getCompteProduit()));
 	}
 }

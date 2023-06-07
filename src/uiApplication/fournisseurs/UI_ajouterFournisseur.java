@@ -20,20 +20,17 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.MatteBorder;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
-import controllers.ControlleurFournisseur;
+import models.Fournisseur;
 import uiPersonalisee.ControlFenetre;
-import uiPersonalisee.ControlImageChooser;
 import uiPersonalisee.PanneauPersonalise;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 public class UI_ajouterFournisseur extends JDialog {
 
 	private final PanneauPersonalise contentPanel = new PanneauPersonalise(10,10,10,10,new Color(0, 0, 51));
 	private static JDialog dialog ;
-	ControlleurFournisseur collaborateur = new ControlleurFournisseur();
+	Fournisseur collaborateur = new Fournisseur();
 	public static JDialog getDialog() {
 		return dialog;
 	}
@@ -58,7 +55,15 @@ public class UI_ajouterFournisseur extends JDialog {
 	private JTextField emailF;
 	private PanneauPersonalise panel;
 	private JTextField adresseF;
+	private JTextField txtReference;
+	static boolean commande = false;
 	
+	public static boolean isCommande() {
+		return commande;
+	}
+	public static void setCommande(boolean commande) {
+		UI_ajouterFournisseur.commande = commande;
+	}
 	public static String getContenuMessage() {
 		return contenuMessage;
 	}
@@ -134,9 +139,15 @@ public class UI_ajouterFournisseur extends JDialog {
 						String adresse = adresseF.getText();
 						String mail = emailF.getText();
 						int phone = Integer.parseInt(telephone.getText());
-						String reference = "CL_00";
-						if(collaborateur.ajoutFournisseur(reference,nomE, adresse, nom, phone, mail)) {
-							System.out.println("collaborateur a  été ajouté avec succès! ");
+						String reference = txtReference.getText();
+						if(collaborateur.ajoutFournisseur(reference,nomE, adresse, nom, phone, mail, true)) {
+							if(commande == false) {
+								System.out.println("collaborateur a  été ajouté avec succès! ");
+							}else {
+								fermerFenetre(false);
+								System.out.println("collaborateur a  été ajouté avec succès! ");
+							}
+							
 						}else {
 							System.out.println("Erreur lors de l'ajout dans la  table ");
 						}
@@ -159,7 +170,6 @@ public class UI_ajouterFournisseur extends JDialog {
 			btnRetour.setBackground(new Color(204, 0, 0));
 			btnRetour.setActionCommand("OK");
 		}
-		
 		JLabel message = new JLabel("");
 		message.setForeground(Color.WHITE);
 		message.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -201,7 +211,6 @@ public class UI_ajouterFournisseur extends JDialog {
 						.addComponent(btnEnregistrer)))
 		);
 		buttonPane.setLayout(gl_buttonPane);;
-		
 		JPanel panBtnExit = new JPanel();
 		
 		JLabel lblNewLabel_1 = new JLabel("Nom et Prénoms");
@@ -262,7 +271,7 @@ public class UI_ajouterFournisseur extends JDialog {
 		
 		panel = new PanneauPersonalise(10,10,10,10,new Color(0, 102, 153));
 		
-		JLabel lblTitre = new JLabel("Ajouter nouveau "+ControlleurFournisseur.getTypeCollaborateur());
+		JLabel lblTitre = new JLabel("Ajouter nouveau "+Fournisseur.getTypeCollaborateur());
 		panel.add(lblTitre);
 		lblTitre.setForeground(Color.WHITE);
 		lblTitre.setHorizontalAlignment(SwingConstants.CENTER);
@@ -279,6 +288,18 @@ public class UI_ajouterFournisseur extends JDialog {
 		adresseF.setSelectedTextColor(Color.red);
 		adresseF.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
 		adresseF.setColumns(10);
+		
+		txtReference = new JTextField();
+		txtReference.setSelectedTextColor(Color.RED);
+		txtReference.setForeground(Color.WHITE);
+		txtReference.setFont(new Font("Cambria", Font.PLAIN, 22));
+		txtReference.setColumns(10);
+		txtReference.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
+		txtReference.setBackground(new Color(0, 0, 51));
+		
+		JLabel lblNewLabel_1_1_3 = new JLabel("Reférence");
+		lblNewLabel_1_1_3.setForeground(Color.WHITE);
+		lblNewLabel_1_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -288,28 +309,32 @@ public class UI_ajouterFournisseur extends JDialog {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 729, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(110)
-					.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblNewLabel_1_1_3, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
 					.addGap(36)
-					.addComponent(lblNewLabel_1_1_2, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
+					.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(110)
-					.addComponent(nom_entreprise, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtReference, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
+					.addGap(36)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNewLabel_1_1_2, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+						.addComponent(nom_entreprise, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)))
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(110)
+					.addComponent(nom_et_prenom, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
 					.addGap(36)
 					.addComponent(adresseF, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(110)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
-						.addComponent(nom_et_prenom, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+						.addComponent(telephone, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
 					.addGap(36)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(emailF, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(110)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
-						.addComponent(telephone, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+						.addComponent(emailF, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -317,33 +342,34 @@ public class UI_ajouterFournisseur extends JDialog {
 					.addComponent(panBtnExit, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addGap(6)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-					.addGap(10)
+					.addGap(11)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1_1_2, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblNewLabel_1_1_3, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
 					.addGap(1)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(nom_entreprise, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-						.addComponent(adresseF, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(30)
+							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtReference, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(30)
+							.addComponent(lblNewLabel_1_1_2, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
+						.addComponent(nom_entreprise, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+					.addGap(1)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-							.addGap(1)
-							.addComponent(nom_et_prenom, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(11)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(24)
-									.addComponent(emailF, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))))
-					.addGap(11)
+						.addComponent(nom_et_prenom, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+						.addComponent(adresseF, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+					.addGap(22)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addGap(24)
-							.addComponent(telephone, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))))
+							.addComponent(telephone, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(24)
+							.addComponent(emailF, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		dialog.getContentPane().setLayout(groupLayout);

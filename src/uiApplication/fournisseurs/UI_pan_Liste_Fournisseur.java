@@ -16,14 +16,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 
-import controllers.ControlleurFournisseur;
 import menu.Dialogue;
 import menu.Menu;
+import models.Fournisseur;
 import uiPersonalisee.ScrollPersonalise;
 import uiPersonalisee.TableDark;
 import uiPersonalisee.Zonne_d_Image;
-import javax.swing.border.MatteBorder;
 
 public class UI_pan_Liste_Fournisseur extends JPanel {
 	static JPanel panel = new JPanel();
@@ -35,7 +35,7 @@ public class UI_pan_Liste_Fournisseur extends JPanel {
 	public static void setLblPan_Liste_Produit(String titre) {
 		UI_pan_Liste_Fournisseur.lblPan_Liste_Produit.setText(titre);
 	}
-	ControlleurFournisseur collaborateur = new ControlleurFournisseur();
+	Fournisseur collaborateur = new Fournisseur();
 	public static JPanel getPanel() {
 		return panel;
 	}
@@ -74,7 +74,7 @@ public class UI_pan_Liste_Fournisseur extends JPanel {
 		btnModifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				UI_modifierFournisseur modifier = new UI_modifierFournisseur();
-				if(ControlleurFournisseur.isElt_select()) {
+				if(Fournisseur.isElt_select()) {
 					modifier.fermerFenetre(true);
 				}else {
 					 Dialogue diag = new Dialogue("Veuillez selectionner d'abord un element ! ",Color.RED);
@@ -89,8 +89,8 @@ public class UI_pan_Liste_Fournisseur extends JPanel {
 		JButton btnSupprimer = new JButton("Supprimer");
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(ControlleurFournisseur.isElt_select()) {
-					if(collaborateur.supprimerProduit(ControlleurFournisseur.getReference(),ControlleurFournisseur.isElt_select())) {
+				if(Fournisseur.isElt_select()) {
+					if(collaborateur.supprimerProduit(Fournisseur.getSelect(),Fournisseur.isElt_select())) {
 						collaborateur.afficheListe(table,Menu.getTypeCollaborateur(),"");
 					}else {
 						System.out.println("Probleme de suppression");

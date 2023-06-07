@@ -13,33 +13,38 @@ import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 
-import controllers.ControlleurFournisseur;
-import controllers.ControlleurProduit;
+import models.Commande;
+import models.Fournisseur;
+import models.LigneCommande;
+import models.Stock;
+import uiApplication.commandes.UI_pan_Commande;
 import uiApplication.commandes.UI_pan_Liste_Commande;
 import uiApplication.fournisseurs.UI_pan_Liste_Fournisseur;
 import uiApplication.produit.UI_pan_Liste_Produit;
 import uiPersonalisee.ControlFenetre;
 import uiPersonalisee.PanneauPersonalise;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.TitledBorder;
 
 public class Menu extends JFrame {
 	private static JFrame fenMenu;
 	private JPanel contentPane;
-	ControlleurFournisseur co = new ControlleurFournisseur();
+	Fournisseur co = new Fournisseur();
+	Stock ctrlP = new Stock();
+	LigneCommande com = new LigneCommande();
+	Commande c = new Commande();
+	UI_pan_Commande panC = new UI_pan_Commande();
+	
 	private static String click = "";
 	private static boolean clicked = false;
 
-	JButton btnCommande,btnClient,btnParametre,btnNewButton_2_6,
+	JButton btnCommande,btnClient,btnParametre,
 	btnFournisseur,btnFacture,btnVente,
 	btnCategorie,btnProduit,btnAccueil;
 	static boolean []b = {false,false,false,false,false,false,false,false,false};
@@ -49,7 +54,8 @@ public class Menu extends JFrame {
 	UI_pan_Liste_Commande panCom = new UI_pan_Liste_Commande();
 	UI_pan_Liste_Fournisseur f = new UI_pan_Liste_Fournisseur(typeCollaborateur);
 	static String typeCollaborateur;
-	private PanneauPersonalise pan_btn;
+	private static PanneauPersonalise pan_btn;
+	private static int translateX = 200;
 	static JPanel panel;
 	static private double X =100;
 	static private double Y =100;
@@ -80,7 +86,6 @@ public class Menu extends JFrame {
             }
         });
 	}
-
     public static void addPanneau(Component comp){
     	panel.removeAll();
     	panel.add(comp);
@@ -100,10 +105,9 @@ public class Menu extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
+					.addComponent(getPan_btn(), GroupLayout.PREFERRED_SIZE, getTranslateX(), GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE))
 				.addComponent(panSystem, GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
@@ -112,69 +116,60 @@ public class Menu extends JFrame {
 					.addComponent(panSystem, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(pan_btn, GroupLayout.PREFERRED_SIZE, 519, Short.MAX_VALUE)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+						.addComponent(getPan_btn(), GroupLayout.PREFERRED_SIZE, 519, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		panel.setLayout(new BorderLayout(0, 0));
-		GroupLayout gl_pan_btn = new GroupLayout(pan_btn);
+		GroupLayout gl_pan_btn = new GroupLayout(getPan_btn());
 		gl_pan_btn.setHorizontalGroup(
 			gl_pan_btn.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pan_btn.createSequentialGroup()
 					.addGap(6)
 					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnCommande, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-						.addComponent(btnAccueil, GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-						.addGroup(gl_pan_btn.createSequentialGroup()
-							.addComponent(btnParametre, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnNewButton_2_6, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
-						.addGroup(gl_pan_btn.createSequentialGroup()
-							.addGroup(gl_pan_btn.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(btnVente, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnProduit, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-								.addComponent(btnFournisseur, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnClient, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-								.addComponent(btnFacture, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-								.addComponent(btnCategorie, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))))
-					.addContainerGap())
+						.addComponent(btnAccueil, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+						.addComponent(btnProduit, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+						.addComponent(btnCategorie, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+						.addComponent(btnVente, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+						.addComponent(btnCommande, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+						.addComponent(btnFacture, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+						.addComponent(btnFournisseur, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+						.addComponent(btnClient, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+						.addComponent(btnParametre, GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
+					.addGap(6))
 		);
 		gl_pan_btn.setVerticalGroup(
 			gl_pan_btn.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_pan_btn.createSequentialGroup()
-					.addGap(23)
-					.addComponent(btnAccueil, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
-					.addGap(24)
-					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnProduit, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnCategorie, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
-					.addGap(21)
-					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnVente, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnFacture, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnFournisseur, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnClient, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
-					.addGap(29)
-					.addComponent(btnCommande, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-					.addGap(79)
-					.addGroup(gl_pan_btn.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnParametre, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNewButton_2_6, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+					.addGap(33)
+					.addComponent(btnAccueil, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(12)
+					.addComponent(btnProduit, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(12)
+					.addComponent(btnCategorie, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(12)
+					.addComponent(btnVente, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(12)
+					.addComponent(btnCommande, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(12)
+					.addComponent(btnFacture, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(btnFournisseur, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(12)
+					.addComponent(btnClient, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(20)
+					.addComponent(btnParametre, GroupLayout.PREFERRED_SIZE, 42, Short.MAX_VALUE)
+					.addGap(6))
 		);
-		pan_btn.setLayout(gl_pan_btn);
+		getPan_btn().setLayout(gl_pan_btn);
 		panSystem.setLayout(new BorderLayout(0, 0));
 		
 		ControlFenetre panSyst = new ControlFenetre(fenMenu);
 		panSystem.add(panSyst, BorderLayout.CENTER);
 		contentPane.setLayout(gl_contentPane);
-		addPanneau(menu.Pan_dashboard.getPanel());
+		
+		addPanneau(menu.Pan_dashboard.getPanel());	
 	}
-	
 	double x,y;
 	public void initialise() {
 		
@@ -204,9 +199,10 @@ public class Menu extends JFrame {
 		contentPane.setBackground(new Color(0, 0, 102));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		fenMenu.setContentPane(contentPane);
-		pan_btn = new PanneauPersonalise(20,20,20,20,new Color(0,0,51));
+		setPan_btn(new PanneauPersonalise(20,20,20,20,new Color(0,0,51)));
 		
-		btnAccueil = new JButton("Accueil");
+		btnAccueil = new JButton("Menu pricipale");
+		btnAccueil.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Backup.png")));
 //		btnAccueil.setBorderPainted(false);
 		btnAccueil.setBorder(new EmptyBorder(0, 0, 0, 0));
 		btnAccueil.addMouseListener(new MouseAdapter() {
@@ -234,16 +230,17 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Accueil";
-				Pan_dashboard.getBtnProduit().setText(""+ControlleurProduit.getCompteProduit());
-//				scrollPane.setViewportView(Pan_dashboard.getPanel());
+				Pan_dashboard.getBtnProduit().setText(""+Stock.getCompteProduit());
 				addPanneau(Pan_dashboard.getPanel());
 			}
 		});
 		btnAccueil.setForeground(Color.WHITE);
-		btnAccueil.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAccueil.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnAccueil.setBackground(new Color(0, 0, 71));
 		
 		btnProduit = new JButton("Produits");
+		btnProduit.setHorizontalAlignment(SwingConstants.LEFT);
+		btnProduit.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Backup.png")));
 		btnProduit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -268,15 +265,17 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Produits";
-
+				ctrlP.afficheListe(p.getTable(),"");
 				addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnProduit.setForeground(Color.WHITE);
-		btnProduit.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnProduit.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnProduit.setBackground(new Color(0, 0, 71));
 		
 		btnCategorie = new JButton("Catégorie");
+		btnCategorie.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCategorie.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Backup.png")));
 		btnCategorie.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -304,10 +303,12 @@ public class Menu extends JFrame {
 			}
 		});
 		btnCategorie.setForeground(Color.WHITE);
-		btnCategorie.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnCategorie.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnCategorie.setBackground(new Color(0, 0, 71));
 		
 		btnVente = new JButton("Ventes");
+		btnVente.setHorizontalAlignment(SwingConstants.LEFT);
+		btnVente.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Backup.png")));
 		btnVente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -332,15 +333,17 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Ventes";
-
+				ctrlP.afficheListe(p.getTable(),"");
 				addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnVente.setForeground(Color.WHITE);
-		btnVente.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnVente.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnVente.setBackground(new Color(0, 0, 71));
 		
 		btnFacture = new JButton("Factures");
+		btnFacture.setHorizontalAlignment(SwingConstants.LEFT);
+		btnFacture.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Backup.png")));
 		btnFacture.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -365,15 +368,17 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Factures";
-
+				ctrlP.afficheListe(p.getTable(),"");
 				addPanneau(UI_pan_Liste_Produit.getPanel());
 			}
 		});
 		btnFacture.setForeground(Color.WHITE);
-		btnFacture.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnFacture.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnFacture.setBackground(new Color(0, 0, 71));
 		
 		btnFournisseur = new JButton("Fournisseurs");
+		btnFournisseur.setHorizontalAlignment(SwingConstants.LEFT);
+		btnFournisseur.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Backup.png")));
 		btnFournisseur.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -404,10 +409,12 @@ public class Menu extends JFrame {
 			}
 		});
 		btnFournisseur.setForeground(Color.WHITE);
-		btnFournisseur.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnFournisseur.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnFournisseur.setBackground(new Color(0, 0, 71));
 		
 		btnParametre = new JButton("Parametre");
+		btnParametre.setHorizontalAlignment(SwingConstants.LEFT);
+		btnParametre.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Drivers.png")));
 		btnParametre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				isClicked();
@@ -417,15 +424,12 @@ public class Menu extends JFrame {
 			}
 		});
 		btnParametre.setForeground(Color.WHITE);
-		btnParametre.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnParametre.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnParametre.setBackground(new Color(0, 0, 71));
 		
-		btnNewButton_2_6 = new JButton("");
-		btnNewButton_2_6.setForeground(Color.WHITE);
-		btnNewButton_2_6.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNewButton_2_6.setBackground(new Color(0, 0, 71));
-		
 		btnClient = new JButton("Clients");
+		btnClient.setHorizontalAlignment(SwingConstants.LEFT);
+		btnClient.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Backup.png")));
 		btnClient.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -457,10 +461,12 @@ public class Menu extends JFrame {
 		});
 		
 		btnClient.setForeground(Color.WHITE);
-		btnClient.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnClient.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnClient.setBackground(new Color(0, 0, 71));
 		
 		btnCommande = new JButton("Commandes");
+		btnCommande.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCommande.setIcon(new ImageIcon(Menu.class.getResource("/designs/images/Backup.png")));
 		btnCommande.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -476,6 +482,7 @@ public class Menu extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				setTranslateX(80);
 				btnCliquer(8);
 				btnCommande.setBackground(new Color(0,51,153));
 				b[1] = false;b[2] = false;b[3] = false;b[4] = false;b[5] = false;b[6] = false;b[7] = false;b[8] = true;
@@ -485,12 +492,12 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Commandes";
-				typeCollaborateur = "Commande";
-				addPanneau(UI_pan_Liste_Commande.getPanel());
+				addPanneau(UI_pan_Commande.getPanel());
+				c.afficheListe(UI_pan_Commande.getTable(),"");
 			}
 		});
 		btnCommande.setForeground(Color.WHITE);
-		btnCommande.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnCommande.setFont(new Font("Candara", Font.PLAIN, 16));
 		btnCommande.setBackground(new Color(0, 0, 71));
 	}
 	public void btnCliquer(int nb) {
@@ -615,8 +622,22 @@ public class Menu extends JFrame {
 	public static String getTypeCollaborateur() {
 		return typeCollaborateur;
 	}
-
 	public static void setTypeCollaborateur(String typeCollaborateur) {
 		Menu.typeCollaborateur = typeCollaborateur;
 	}
+
+	public static int getTranslateX() {
+		return translateX;
+	}
+
+	public static void setTranslateX(int translateX) {
+		Menu.translateX = translateX;
+	}
+	public static PanneauPersonalise getPan_btn() {
+		return pan_btn;
+	}
+	public static void setPan_btn(PanneauPersonalise pan_btn) {
+		Menu.pan_btn = pan_btn;
+	}
+	
 }
