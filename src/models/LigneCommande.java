@@ -304,11 +304,10 @@ public static  double getPrixTotal(String idCom) throws SQLException {
       System.out.println("La somme est :"+prixTotal);
 	return prixTotal;	
 }
-public void getElement(JButton operation, JTextField reference, JComboBox<String> categorie, JTextField designation,  JTextField prixUnitaire, JTextField quantite, JComboBox<String> unite) 
+public void getElement(JButton operation, JTextField reference,String refCom,  JComboBox<String> categorie, JTextField designation,  JTextField prixUnitaire, JTextField quantite, JComboBox<String> unite) 
 {
 		String requete = "SELECT * FROM stock, fournisseur, categorie WHERE stock.idCategorie = categorie.reference AND stock.reference = '"+getReference()+"'";
-		String requete2 = "SELECT * FROM ligne_commande, fournisseur, stock WHERE ligne_commande.idProd = stock.reference AND stock.reference = '"+getReference()+"'";
-		try {
+		String requete2 = "SELECT * FROM ligne_commande,stock,commande WHERE commande.reference = '"+refCom+"' AND commande.reference = ligne_commande.idCom AND ligne_commande.idProd = stock.reference AND ligne_commande.idProd = '"+getReference()+"' ";try {
             st=(Statement) ConnectionDB.getConnect().createStatement();
             if(operation.getText()=="Modifier") {
                 rs = (ResultSet) st.executeQuery(requete2);

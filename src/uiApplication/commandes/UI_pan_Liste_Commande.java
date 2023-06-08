@@ -608,7 +608,7 @@ public class UI_pan_Liste_Commande extends JPanel {
 		UI_pan_Liste_Commande.lblTotal = lblTotal;
 	}
 	public static void refresh() {
-		produit.getElement(btn_ajout_modif, txt_reference, cbx_categorie, txt_designation, txt_prixUnitaire, txt_quantite, cbx_unite);
+		produit.getElement(btn_ajout_modif, txt_reference, Commande.getSelect() ,cbx_categorie, txt_designation, txt_prixUnitaire, txt_quantite, cbx_unite);
 		quantite = Double.parseDouble(txt_quantite.getText());
 		lblResteStock.setText("<html>Reste du stock selectionnee:<br><p style=\"color:Orange;text-alignement:center\">"+LigneCommande.getQuantite_reste()+"</p> </html");
 		txt_prixTotal.setText(""+Double.parseDouble(txt_prixUnitaire.getText())*Double.parseDouble(txt_quantite.getText())+" Ar.");
