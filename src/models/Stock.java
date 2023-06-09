@@ -90,9 +90,9 @@ public class Stock {
 		int j = 0;
 		String sql ="";
 		if(condition.equals("")) {
-			  sql = "SELECT "+colone+" from "+table+" GROUP BY id DESC";
+			  sql = "SELECT "+colone+" from "+table+" GROUP BY reference DESC";
 		}else {
-			  sql = "SELECT "+colone+" from "+table+" WHERE type = '"+condition+"' GROUP BY id DESC";
+			  sql = "SELECT "+colone+" from "+table+" WHERE type = '"+condition+"' GROUP BY reference DESC";
 		}
             try {
 				st=(Statement) ConnectionDB.getConnect().createStatement();

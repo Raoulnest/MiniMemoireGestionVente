@@ -23,7 +23,7 @@ import uiApplication.commandes.UI_pan_Liste_Commande;
 import uiApplication.produit.UI_pan_Liste_Produit;
 
 public class LigneCommande {
-//	private static String select;
+  //	private static String select;
 	private static String reference;
 	private String commande;
 	private String idProd;
@@ -91,7 +91,7 @@ public class LigneCommande {
 	        insert.setString(5,unite);
 	        insert.executeUpdate();
 	        
-//			 stock.modifierQuantite( idPro,0, quantite);
+			 stock.modifierQuantite( idPro,0, quantite);
 	        
 	        UI_pan_Liste_Commande.getLblMessage().setText("<html>Produit  a ete ajoute <br>dans la liste de commande</html>");
 			UI_pan_Liste_Commande.getLblMessage().setForeground(Color.YELLOW);
@@ -111,8 +111,8 @@ public class LigneCommande {
 		return est_ajoute;
 	}
 
-	public double quantiteCommandee(String reference) {
-		String requette1 =  "SELECT qttCommande FROM ligne_commande WHERE idCom = '"+reference+"' ";
+	public double quantiteCommandee(String reference, String idPro) {
+		String requette1 =  "SELECT qttCommande FROM ligne_commande, stock WHERE ligne_commande.idPro = stock.reference AND  stock.reference = '"+idPro+"' AND idCom = '"+reference+"' ";
 		double qttCommande = 0;
         try {
             st=(Statement) ConnectionDB.getConnect().createStatement();
@@ -128,7 +128,6 @@ public class LigneCommande {
 //	methode pour ajouter des lignes commandes
 	public boolean modifieLigneCommande(String idPro,String idCom,  double prixUnitaire,double quantite,  String unite) {
 		String requete = "UPDATE ligne_commande SET qttCommande=?, prixT = ?, unite = ? WHERE idProd='"+idPro+"' AND  idCom = '"+idCom+"'";
-//		stock.modifierQuantite(idPro, quantiteCommandee(idCom), quantite);
 
 		boolean est_modifie = false;
 		try {
@@ -137,6 +136,7 @@ public class LigneCommande {
 			modifie.setDouble(2,prixUnitaire*quantite);
 			modifie.setString(3,unite);
 			modifie.executeUpdate();
+			stock.modifierQuantite(idPro, quantiteCommandee(idCom, idPro), quantite);
 	        UI_pan_Liste_Commande.getLblMessage().setText("<html>Modification du quantite de ligne commande</html>");
 			UI_pan_Liste_Commande.getLblMessage().setForeground(Color.YELLOW);
 //			try {
@@ -236,9 +236,14 @@ public class LigneCommande {
 		        	if(reference.equals("tout")) {
 		        		java.sql.PreparedStatement supprimer= (PreparedStatement) ConnectionDB.getConnect().prepareStatement(requete2);
 			        	supprimer.executeUpdate();
+			        	
+						stock.modifierQuantite(reference, quantiteCommandee(idCom, reference), 0);
+						
 					}else {
 						java.sql.PreparedStatement supprimer= (PreparedStatement) ConnectionDB.getConnect().prepareStatement(requete);
 			        	supprimer.executeUpdate();
+			        	stock.modifierQuantite(reference, quantiteCommandee(idCom, reference), 0);
+			        	System.out.println(quantiteCommandee(idCom, reference));
 			        	UI_pan_Liste_Commande.getLblMessage().setText("<html>Suppression d'un produit <br>dans la liste de commande.!</html>");
 			        	UI_pan_Liste_Commande.getLblMessage().setForeground(Color.RED);
 //			        	try {

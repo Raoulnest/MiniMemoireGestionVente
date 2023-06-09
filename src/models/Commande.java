@@ -37,7 +37,7 @@ public class Commande {
 	}
 	
 	public boolean ajoutCommande() {
-		String requete = "INSERT INTO commande(prix_total)VALUES (0.0)";
+		String requete = "INSERT INTO commande(idCli,prix_total)VALUES ('CLIENT-TEMP', 0.0)";
 		boolean est_ajoute = false;
 		try {
 			java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
