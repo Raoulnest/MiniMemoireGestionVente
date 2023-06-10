@@ -23,12 +23,11 @@ import menu.Menu;
 import models.Commande;
 import models.Fournisseur;
 import models.LigneCommande;
-import uiPersonalisee.PanneauPersonalise;
 import uiPersonalisee.ScrollPersonalise;
 import uiPersonalisee.TableDark;
 import uiPersonalisee.Zonne_d_Image;
 
-	public class UI_pan_Commande extends JPanel {
+public class UI_pan_Commande extends JPanel {
 	static JPanel panel = new JPanel();
 	static JLabel lblPan_Liste_Produit;
 
@@ -70,10 +69,11 @@ import uiPersonalisee.Zonne_d_Image;
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Menu.addPanneau(UI_pan_Liste_Commande.getPanel());
-				Commande.setSelect("COM-TEMP");
-				ligneCommande.afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), Commande.getSelect(),  "");
+				Commande.setSelect(c.ajoutCommande("CLIENT-TEMP", 0));
 				Menu.setTypeCollaborateur("Client");
-				c.ajoutCommande(); 
+				
+				ligneCommande.afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), Commande.getSelect(),  "");
+				
 				com.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
 				Menu.getPan_btn().setVisible(false);
 			}

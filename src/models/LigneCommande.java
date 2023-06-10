@@ -112,11 +112,11 @@ public class LigneCommande {
 	}
 
 	public double quantiteCommandee(String reference, String idPro) {
-		String requette1 =  "SELECT qttCommande FROM ligne_commande, stock WHERE ligne_commande.idPro = stock.reference AND  stock.reference = '"+idPro+"' AND idCom = '"+reference+"' ";
+		String requette =  "SELECT qttCommande FROM ligne_commande, stock WHERE ligne_commande.idPro = stock.reference AND  stock.reference = '"+idPro+"' AND idCom = '"+reference+"' ";
 		double qttCommande = 0;
         try {
             st=(Statement) ConnectionDB.getConnect().createStatement();
-            rs = (ResultSet) st.executeQuery(requette1);
+            rs = (ResultSet) st.executeQuery(requette);
             while(rs.next()){
             	qttCommande =rs.getDouble("qttCommande");
             }

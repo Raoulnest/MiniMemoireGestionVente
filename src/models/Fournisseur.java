@@ -76,14 +76,44 @@ public class Fournisseur {
 			}
 			return est_ajoute;
 		}
-		
-//		methode pour mettre a jour les fournisseurs dans le table fournisseur
-		public boolean modifierFournisseur(String reference, String nom_entreprise, String adresseF, String nom_et_prenom, int telephone, String emailF) {
-			String requete = "UPDATE fournisseur SET nom_entreprise=?,adresseF=?,nom_et_prenom=?,telephone=?,emailF=? WHERE reference='"+reference+"'";
-			boolean est_modifie = false;
+//	
+//		methode pour ajouter des fournisseurs dans la table fournisseur
+		public boolean ajoutFournisseur() {
+			String requete = "INSERT INTO fournisseur(reference, nom_entreprise, adresseF, nom_et_prenom, telephone, emailF, type)"
+					+ "VALUES ('CLIENT-TEMP','Inconnus','Inconnus','Inconnus','0','Inconnus','"+Menu.getTypeCollaborateur()+"')";
+			boolean est_ajoute = false;
 			try {
-				 java.sql.PreparedStatement modifier = ConnectionDB.getConnect().prepareStatement(requete);
-		            
+				java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
+				 insert.executeUpdate();
+				 est_ajoute = true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return est_ajoute;
+		}
+	
+//		methode pour mettre a jour les fournisseurs dans le table fournisseur
+		public boolean modifierFournisseur(String reference, String nom_entreprise, String adresseF, String nom_et_prenom, int telephone, String emailF, boolean temp) {
+			String requete = "UPDATE fournisseur SET nom_entreprise=?,adresseF=?,nom_et_prenom=?,telephone=?,emailF=? WHERE reference='"+reference+"'";
+			String requete2 ="UPDATE fournisseur SET reference = ?, nom_entreprise=?,adresseF=?,nom_et_prenom=?,telephone=?,emailF=? WHERE reference='\"+reference+\"'";
+			boolean est_modifie = false;
+			
+			try {
+				 java.sql.PreparedStatement modifier = null;
+		           if(temp == true) {
+		        	   modifier = ConnectionDB.getConnect().prepareStatement(requete2);
+		        	   		
+		        	   		modifier.setString(1,reference);
+		        	   		modifier.setString(2,nom_entreprise);
+		        	   		modifier.setString(3,adresseF);
+		        	   		modifier.setString(4,nom_et_prenom);
+		        	   		modifier.setInt(5,telephone);
+		        	   		modifier.setString(6,emailF);
+					        
+		        	   		modifier.executeUpdate();
+		        	   		est_modifie = true;
+		           }else {
+		        	  modifier = ConnectionDB.getConnect().prepareStatement(requete);
 					 modifier.setString(1,nom_entreprise);
 					 modifier.setString(2,adresseF);
 					 modifier.setString(3,nom_et_prenom);
@@ -94,6 +124,7 @@ public class Fournisseur {
 					 est_modifie = true;
 					 
 					 afficheListe(UI_pan_Liste_Fournisseur.getTable(),Menu.getTypeCollaborateur(),"");
+		           }
 			} catch (Exception e) {
 				est_modifie = false;
 				e.printStackTrace();
@@ -219,8 +250,7 @@ public class Fournisseur {
 	        try {
 	            st=(Statement) ConnectionDB.getConnect().createStatement();
 	            rs = (ResultSet) st.executeQuery(requete);
-	            while(rs.next()){	            	
-	            	System.out.println("Test : "+getSelect());
+	            while(rs.next()) {
 	            	reference.setText(getSelect()); 
 	            	nom_entreprise.setText(rs.getString("nom_entreprise")); 
 	            	adresseF.setText(rs.getString("adresseF")); 

@@ -158,7 +158,7 @@ public class UI_modifierFournisseur extends JDialog {
 						String adresse = adresseF.getText();
 						String mail = emailF.getText();
 						int phone = Integer.parseInt(telephone.getText());
-						if(fournisseur.modifierFournisseur(refer,nomE, adresse, nom, phone, mail)) {
+						if(fournisseur.modifierFournisseur(refer,nomE, adresse, nom, phone, mail, false)) {
 							System.out.println("fournisseur a  été ajouté avec succès! ");
 						}else {
 							System.out.println("Erreur lors de l'ajout dans la  table ");

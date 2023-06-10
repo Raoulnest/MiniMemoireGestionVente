@@ -25,6 +25,7 @@ public class Commande {
 	private static String select;
 	private static ResultSet rs;
 	private static Statement st;
+	Fournisseur f = new Fournisseur();
 	
 	public Commande() {}
 	
@@ -37,8 +38,11 @@ public class Commande {
 	}
 	
 	public boolean ajoutCommande() {
-		String requete = "INSERT INTO commande(idCli,prix_total)VALUES ('CLIENT-TEMP', 0.0)";
+		String requete = "INSERT INTO commande(reference, idCli, prix_total) VALUES ('COM-TEMP','CLIENT-TEMP','0.0')";
 		boolean est_ajoute = false;
+		if(f.ajoutFournisseur() == false) {
+			System.out.println("Echec d'ajout dans la table Client");
+		}else {
 		try {
 			java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
 	        insert.executeUpdate();
@@ -46,18 +50,20 @@ public class Commande {
 		} catch (Exception e) {
 			est_ajoute=false;
 			e.printStackTrace();
+		}
 		}
 		return est_ajoute;
 	}
-	public boolean ajoutCommande(String reference,String idClient, double prix_total) {
+	public String ajoutCommande(String idClient, double prix_total) {
 		String requete = "INSERT INTO commande(reference,idCli,prix_total)VALUES (?,?,?)";
 		boolean est_ajoute = false;
+		String ref = "COM_0"+Fournisseur.dernierId_plus_1("commande");
 		try {
 			java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
 			
-			insert.setString(1, reference);
+			insert.setString(1, ref);
 			insert.setString(2, idClient);
-			insert.setDouble(1, prix_total);
+			insert.setDouble(3, prix_total);
 			
 	        insert.executeUpdate();
 	        est_ajoute = true;
@@ -65,32 +71,53 @@ public class Commande {
 			est_ajoute=false;
 			e.printStackTrace();
 		}
-		return est_ajoute;
+		return ref;
 	}
 	public boolean modifierCommande(String reference, String idCli, double prix_total){
 		String requete = "UPDATE commande SET reference=?,idCli=?,prix_total=? WHERE reference='"+reference+"'";
 		String requete2 = "UPDATE commande SET idCli=?,prix_total=? WHERE reference='"+reference+"'";
+		String requete3 = "SELECT  * FROM fournisseur WHERE reference = '"+idCli+"'";
+		String nomE = null,adrF = null,nom_et_pre = null,email = null;
+		int phone = 0;
 		boolean est_modifie = false;
-		String ref = "COM-0"+(Fournisseur.dernierId_plus_1("commande")-1);
-		java.sql.PreparedStatement modifier = null;
-		try {
-	            if(reference.equals("COM-TEMP") ){
-	            	 modifier = ConnectionDB.getConnect().prepareStatement(requete);
-	            	 modifier.setString(1,ref);
-					 modifier.setString(2,idCli);
-					 modifier.setDouble(3,prix_total);
-	            }else {
-	            	 modifier = ConnectionDB.getConnect().prepareStatement(requete2);
-	            	modifier.setString(1,idCli);
-					 modifier.setDouble(2,prix_total);
+		 try {
+	            st=(Statement) ConnectionDB.getConnect().createStatement();
+	            rs = (ResultSet) st.executeQuery(requete3);
+	            while(rs.next()){
+	            	nomE = rs.getString("nom_entreprise");
+	            	adrF = rs.getString("adresseF");
+	            	nom_et_pre = rs.getString("nom_et_prenom");
+	            	phone = rs.getInt("telephone");
+	            	email = rs.getString("emailF");
 	            }
-				 modifier.executeUpdate();
-				 est_modifie = true;
-				 
-		} catch (Exception e) {
-			est_modifie = false;
-			e.printStackTrace();
-		}
+	        } catch (SQLException ex) {
+	        }
+		if(f.modifierFournisseur(idCli, nomE, adrF, nom_et_pre, phone, email, true)) {		
+			String ref = "COM-0"+(Fournisseur.dernierId_plus_1("commande")-1);
+			java.sql.PreparedStatement modifier = null;
+			try {
+		            if(reference.equals("COM-TEMP") ){
+		            	 modifier = ConnectionDB.getConnect().prepareStatement(requete);
+		            	 modifier.setString(1,ref);
+						 modifier.setString(2,idCli);
+						 modifier.setDouble(3,prix_total);
+		            }else {
+		            	 modifier = ConnectionDB.getConnect().prepareStatement(requete2);
+		            	modifier.setString(1,idCli);
+						 modifier.setDouble(2,prix_total);
+		            }
+					 modifier.executeUpdate();
+					 est_modifie = true;
+					 
+			} catch (Exception e) {
+				est_modifie = false;
+				e.printStackTrace();
+			}
+			
+	}else {
+		
+	}
+
 		return est_modifie;
 	}
 	//methode pour supprimer les donnees dans la table produit

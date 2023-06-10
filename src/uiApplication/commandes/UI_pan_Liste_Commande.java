@@ -492,9 +492,11 @@ public class UI_pan_Liste_Commande extends JPanel {
 				String client = stock.changeNomtoId("reference","fournisseur", "nom_et_prenom", cbxClient.getSelectedItem().toString());					
 				try {
 					if(com.modifierCommande(Commande.getSelect(), client, LigneCommande.getPrixTotal(Commande.getSelect()))) {
-						if(Commande.getSelect().equals("COM-TEMP")) {
-							lgCom.modifieLigneCommande("COM-TEMP","COM-0"+(Fournisseur.dernierId_plus_1("commande")-1));
-						}
+						System.out.println((Fournisseur.dernierId_plus_1("commande")-1));
+//						if(Commande.getSelect().equals("COM-TEMP")) {
+////							lgCom.modifieLigneCommande("COM-TEMP","COM-0"+(Fournisseur.dernierId_plus_1("commande")-1));
+//							System.out.println((Fournisseur.dernierId_plus_1("commande")-1));
+//						}
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
