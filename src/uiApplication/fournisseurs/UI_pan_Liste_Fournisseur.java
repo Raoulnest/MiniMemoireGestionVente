@@ -63,7 +63,6 @@ public class UI_pan_Liste_Fournisseur extends JPanel {
 				UI_ajouterFournisseur d = new UI_ajouterFournisseur();
 				UI_ajouterFournisseur.getDialog();
 				d.fermerFenetre(true);
-			
 			}
 		});
 		btnNewButton.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -90,7 +89,7 @@ public class UI_pan_Liste_Fournisseur extends JPanel {
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Fournisseur.isElt_select()) {
-					if(collaborateur.supprimerProduit(Fournisseur.getSelect(),Fournisseur.isElt_select())) {
+					if(collaborateur.supprimerFournisseur(Fournisseur.getSelect(),Fournisseur.isElt_select())) {
 						collaborateur.afficheListe(table,Menu.getTypeCollaborateur(),"");
 					}else {
 						System.out.println("Probleme de suppression");

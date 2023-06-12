@@ -44,20 +44,16 @@ public class Fournisseur {
 	}
 		
 //		methode pour ajouter des fournisseurs dans la table fournisseur
-		public boolean ajoutFournisseur(String reference, String nom_entreprise, String adresseF, String nom_et_prenom, int telephone, String emailF, boolean afficheTableau) {
+		public boolean ajoutFournisseur(String nom_entreprise, String adresseF, String nom_et_prenom, int telephone, String emailF, boolean afficheTableau) {
 			String requete = "INSERT INTO fournisseur(reference, nom_entreprise, adresseF, nom_et_prenom, telephone, emailF, type)VALUES (?,?,?,?,?,?,?)";
 			boolean est_ajoute = false;
 			try {
 				java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
-				if(reference.equals("")) {
 						if(Menu.getTypeCollaborateur().equals("Fournisseur")) {
 						insert.setString(1,"FRS_0"+dernierId_plus_1("fournisseur"));
 						}else {
 							insert.setString(1,"CLI_0"+dernierId_plus_1("fournisseur"));
 						}
-				}else {
-					insert.setString(1,reference);
-				}
 				insert.setString(2,nom_entreprise);
 		        insert.setString(3,adresseF);
 		        insert.setString(4,nom_et_prenom);
@@ -132,7 +128,7 @@ public class Fournisseur {
 			return est_modifie;
 		}
 //		methode pour supprimer les donnees dans la table fournisseur
-		public boolean supprimerProduit(String reference, boolean isSelected) {
+		public boolean supprimerFournisseur(String reference, boolean isSelected) {
 			String requete = "DELETE FROM fournisseur WHERE reference='"+reference+"'";
 			boolean est_sup = false;
 			if(isSelected==false) {
@@ -205,15 +201,7 @@ public class Fournisseur {
 		        table.setModel(tableParDefaut);
 		        UI_pan_Liste_Fournisseur.setLblPan_Liste_Produit("Liste des "+typeC+" existant : "+Fournisseur.getCompteFournisseur());
 		}
-//		public int tabMin(int tab[]) {
-//			int min = 0;
-//			for(int i = 1 ; i <= tab.length-1 ; i++) {
-//				if(tab[i] < min) {
-//					min = tab[i];
-//				}
-//			}
-//			return min;
-//		}
+		
 		public static int tabMax(int tab[]) {
 			int max = 0;
 			for(int i = 1 ; i <= tab.length-1 ; i++) {
@@ -223,14 +211,15 @@ public class Fournisseur {
 			}
 			return max;
 		}
+		
 		public static int dernierId_plus_1(String table) {	
 			 String sql = "";
 			if(table.equals("fournisseur")) {
-				 sql = "SELECT COUNT(reference) AS compteur FROM "+table+" WHERE type = '"+Fournisseur.getTypeCollaborateur()+"'";
+				 sql = "SELECT COUNT(reference) AS compteur FROM "+table+" WHERE type = '"+Menu.getTypeCollaborateur()+"'";
 			}else {
 				 sql = "SELECT COUNT(reference) AS compteur FROM "+table+" WHERE 1";
 			}
-	        int[] id = new int[1000];
+	        int[] id = new int[10000];
 	        int i = 1;
 	        try {
 	            st=(Statement) ConnectionDB.getConnect().createStatement();
@@ -243,6 +232,7 @@ public class Fournisseur {
 			}
 			return tabMax(id)+1;
 		}
+		
 //		Obtnenir l'element selectionné
 	public void getElement(JTextField reference, JTextField nom_entreprise, JTextField adresseF, JTextField nom_et_prenom, JTextField telephone, JTextField emailF) 
 	{
@@ -262,65 +252,84 @@ public class Fournisseur {
 	            ex.printStackTrace();
 	        }
 		}
+	
 		public static boolean isElt_select() {
 			return elt_select;
 		}
+		
 		public static void setElt_select(boolean elt_select) {
 			Fournisseur.elt_select = elt_select;
 		}
+		
 		public static int getCompteFournisseur() {
 			return compteFournisseur;
 		}
+		
 		public static void setCompteFournisseur(int compteFournisseur) {
 			Fournisseur.compteFournisseur = compteFournisseur;
 		}
+		
 		public static String getImage() {
 			return sary;
 		}
+		
 		public static void setImage(String src_image) {
 			Fournisseur.sary = src_image;
 		}
+		
 		public static String getTypeCollaborateur() {
 			return typeCollaborateur;
 		}
+		
 		public static void setTypeCollaborateur(String typeCollaborateur) {
 			Fournisseur.typeCollaborateur = typeCollaborateur;
 		}
+		
 	public String getNom_entreprise() {
 		return nom_entreprise;
 	}
+	
 	public void setNom_entreprise(String nom_entreprise) {
 		this.nom_entreprise = nom_entreprise;
 	}
+	
 	public String getAdresseF() {
 		return adresseF;
 	}
+	
 	public void setAdresseF(String adresseF) {
 		this.adresseF = adresseF;
 	}
+	
 	public String getNom_et_prenom() {
 		return nom_et_prenom;
 	}
+	
 	public void setNom_et_prenom(String nom_et_prenom) {
 		this.nom_et_prenom = nom_et_prenom;
 	}
+	
 	public int getTelephone() {
 		return telephone;
 	}
+	
 	public void setTelephone(int telephone) {
 		this.telephone = telephone;
 	}
+	
 	public String getEmailF() {
 		return emailF;
 	}
+	
 	public void setEmailF(String emailF) {
 		this.emailF = emailF;
 	}
+	
 	public static String getSelect() {
 		return select;
 	}
+	
 	public static void setSelect(String select) {
 		Fournisseur.select = select;
 	}
-	
 }

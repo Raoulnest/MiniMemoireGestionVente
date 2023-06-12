@@ -95,11 +95,11 @@ public class LigneCommande {
 	        
 	        UI_pan_Liste_Commande.getLblMessage().setText("<html>Produit  a ete ajoute <br>dans la liste de commande</html>");
 			UI_pan_Liste_Commande.getLblMessage().setForeground(Color.YELLOW);
-//			try {
-//				UI_pan_Liste_Commande.getLblTotal().setText("<html>Somme d\'article :  <b style = \"color: Orange;\">"+LigneCommande.getPrixTotal(Commande.getSelect())+"</b> Ar.</html>");
-//			} catch (SQLException e1) {
-//				e1.printStackTrace();
-//			}
+			try {
+				UI_pan_Liste_Commande.getLblTotal().setText("<html>Somme d\'article :  <b style = \"color: Orange;\">"+LigneCommande.getPrixTotal(Commande.getSelect())+"</b> Ar.</html>");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 	        est_ajoute = true;
             afficheListe(UI_pan_Liste_Commande.getTableLgCommande(),idCom,"");
 	        
@@ -139,11 +139,11 @@ public class LigneCommande {
 			stock.modifierQuantite(idPro, quantiteCommandee(idCom, idPro), quantite);
 	        UI_pan_Liste_Commande.getLblMessage().setText("<html>Modification du quantite de ligne commande</html>");
 			UI_pan_Liste_Commande.getLblMessage().setForeground(Color.YELLOW);
-//			try {
-//				UI_pan_Liste_Commande.getLblTotal().setText("<html>Somme d\'article :  <b style = \"color: Orange;\">"+LigneCommande.getPrixTotal(Commande.getSelect())+"</b> Ar.</html>");
-//			} catch (SQLException e1) {
-//				e1.printStackTrace();
-//			}
+			try {
+				UI_pan_Liste_Commande.getLblTotal().setText("<html>Somme d\'article :  <b style = \"color: Orange;\">"+LigneCommande.getPrixTotal(Commande.getSelect())+"</b> Ar.</html>");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 	       est_modifie = true;
 			 afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), idCom, "");
 	        
@@ -161,8 +161,8 @@ public class LigneCommande {
 		try {
 			java.sql.PreparedStatement modifie = ConnectionDB.getConnect().prepareStatement(requete);
 			modifie.setString(1,idCom);
+			
 			modifie.executeUpdate();
-
 	       est_modifie = true;
 	        
 		} catch (Exception e) {
@@ -231,28 +231,29 @@ public class LigneCommande {
 			boolean est_sup = false;
 			if(isSelected==false) {
 				System.out.println("Veuillez selectionner l'element dans ce tableau : ");
-			}else {
-		        try {
+			}else if(isSelected == true){
+				java.sql.PreparedStatement supprimer;
+				try {
 		        	if(reference.equals("tout")) {
-		        		java.sql.PreparedStatement supprimer= (PreparedStatement) ConnectionDB.getConnect().prepareStatement(requete2);
-			        	supprimer.executeUpdate();
+		        		supprimer= (PreparedStatement) ConnectionDB.getConnect().prepareStatement(requete2);
 			        	
-						stock.modifierQuantite(reference, quantiteCommandee(idCom, reference), 0);
-						
+		        		supprimer.executeUpdate();	
+		        		est_sup = true;
+//						stock.modifierQuantite(reference, quantiteCommandee(idCom, reference), 0);
 					}else {
-						java.sql.PreparedStatement supprimer= (PreparedStatement) ConnectionDB.getConnect().prepareStatement(requete);
+						supprimer= (PreparedStatement) ConnectionDB.getConnect().prepareStatement(requete);
 			        	supprimer.executeUpdate();
+			        	est_sup = true;
 			        	stock.modifierQuantite(reference, quantiteCommandee(idCom, reference), 0);
 			        	System.out.println(quantiteCommandee(idCom, reference));
 			        	UI_pan_Liste_Commande.getLblMessage().setText("<html>Suppression d'un produit <br>dans la liste de commande.!</html>");
 			        	UI_pan_Liste_Commande.getLblMessage().setForeground(Color.RED);
-//			        	try {
-//			        		UI_pan_Liste_Commande.getLblTotal().setText("<html>Somme d\'article :  <b style = \"color: Orange;\">"+LigneCommande.getPrixTotal(Commande.getSelect())+"</b> Ar.</html>");
-//						} catch (SQLException e1) {
-//							e1.printStackTrace();
-//						}
+			        	try {
+			        		UI_pan_Liste_Commande.getLblTotal().setText("<html>Somme d\'article :  <b style = \"color: Orange;\">"+LigneCommande.getPrixTotal(Commande.getSelect())+"</b> Ar.</html>");
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
 			        	System.out.println("L'element qui porte l'identification '"+reference+"' a été supprimé définitivement : ");
-			            est_sup = true;
 					}
 		        } catch (SQLException e) {
 		        	est_sup = false;

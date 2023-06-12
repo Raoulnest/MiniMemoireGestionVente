@@ -139,8 +139,7 @@ public class UI_ajouterFournisseur extends JDialog {
 						String adresse = adresseF.getText();
 						String mail = emailF.getText();
 						int phone = Integer.parseInt(telephone.getText());
-						String reference = txtReference.getText();
-						if(collaborateur.ajoutFournisseur(reference,nomE, adresse, nom, phone, mail, true)) {
+						if(collaborateur.ajoutFournisseur(nomE, adresse, nom, phone, mail, true)) {
 							if(commande == false) {
 								System.out.println("collaborateur a  été ajouté avec succès! ");
 							}else {

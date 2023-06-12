@@ -57,19 +57,24 @@ public class Commande {
 	public String ajoutCommande(String idClient, double prix_total) {
 		String requete = "INSERT INTO commande(reference,idCli,prix_total)VALUES (?,?,?)";
 		boolean est_ajoute = false;
-		String ref = "COM_0"+Fournisseur.dernierId_plus_1("commande");
-		try {
-			java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
-			
-			insert.setString(1, ref);
-			insert.setString(2, idClient);
-			insert.setDouble(3, prix_total);
-			
-	        insert.executeUpdate();
-	        est_ajoute = true;
-		} catch (Exception e) {
-			est_ajoute=false;
-			e.printStackTrace();
+		String ref = null;
+		if(f.ajoutFournisseur() == true) {
+			ref = "COM_0"+Fournisseur.dernierId_plus_1("commande");
+			try {
+				java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
+				
+				insert.setString(1, ref);
+				insert.setString(2, idClient);
+				insert.setDouble(3, prix_total);
+				
+		        insert.executeUpdate();
+		        est_ajoute = true;
+			} catch (Exception e) {
+				est_ajoute=false;
+				e.printStackTrace();
+			}
+		}else {
+			System.out.println("Echec d'ajout dans la table Client");
 		}
 		return ref;
 	}

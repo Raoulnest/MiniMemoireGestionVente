@@ -160,6 +160,7 @@ public class UI_modifierFournisseur extends JDialog {
 						int phone = Integer.parseInt(telephone.getText());
 						if(fournisseur.modifierFournisseur(refer,nomE, adresse, nom, phone, mail, false)) {
 							System.out.println("fournisseur a  été ajouté avec succès! ");
+							fermerFenetre(false);
 						}else {
 							System.out.println("Erreur lors de l'ajout dans la  table ");
 						}
@@ -233,7 +234,6 @@ public class UI_modifierFournisseur extends JDialog {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setForeground(Color.WHITE);
 		
-		
 		txtReference = new JTextField();
 		txtReference.setSelectedTextColor(Color.RED);
 		txtReference.setForeground(Color.WHITE);
@@ -242,7 +242,6 @@ public class UI_modifierFournisseur extends JDialog {
 		txtReference.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
 		txtReference.setBackground(new Color(0, 0, 51));
 		txtReference.setBounds(110, 109, 241, 31);
-		
 		
 		nom_et_prenom = new JTextField();
 		nom_et_prenom.setBounds(110, 184, 241, 31);

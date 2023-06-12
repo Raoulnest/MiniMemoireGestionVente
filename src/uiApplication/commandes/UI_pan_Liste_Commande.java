@@ -58,6 +58,9 @@ public class UI_pan_Liste_Commande extends JPanel {
 
 	Commande com = new Commande();
 	LigneCommande lgCom = new LigneCommande();
+	Fournisseur f = new Fournisseur();
+	private static boolean etatModifie = false;
+	
 	static JComboBox cbxClient;
 
 	public static JComboBox getCbxClient() {
@@ -183,8 +186,6 @@ public class UI_pan_Liste_Commande extends JPanel {
 		txt_quantite.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-//				double sto = stock.modifierQuantite( txt_reference.getText(), quantite, Double.parseDouble(txt_quantite.getText()));
-//				lblResteStock.setText("<html>Reste du stock selectionnee:<br><p style=\"color:Orange;text-alignement:center\">"+sto+"</p> </html");
 				if(txt_quantite.getText().equals("")) {
 					System.out.println("Notre programme n'effectue pas des calculs avec le nombre null");
 				}else {
@@ -287,7 +288,6 @@ public class UI_pan_Liste_Commande extends JPanel {
 				}else {
 							if(produit.ajoutLigneCommande(txt_reference.getText(), Commande.getSelect(), Double.parseDouble(txt_prixUnitaire.getText()), Double.parseDouble(txt_quantite.getText()), cbx_unite.getSelectedItem().toString())) {
 								produit.afficheListe(tableLgCommande, Commande.getSelect(), "");
-								
 						}
 					}
 				}
@@ -492,11 +492,11 @@ public class UI_pan_Liste_Commande extends JPanel {
 				String client = stock.changeNomtoId("reference","fournisseur", "nom_et_prenom", cbxClient.getSelectedItem().toString());					
 				try {
 					if(com.modifierCommande(Commande.getSelect(), client, LigneCommande.getPrixTotal(Commande.getSelect()))) {
+						f.supprimerFournisseur("CLIENT-TEMP", true);
+						Menu.getPan_btn().setVisible(true);
+						Menu.addPanneau(UI_pan_Commande.getPanel());
+						com.afficheListe(UI_pan_Commande.getTable(),"");
 						System.out.println((Fournisseur.dernierId_plus_1("commande")-1));
-//						if(Commande.getSelect().equals("COM-TEMP")) {
-////							lgCom.modifieLigneCommande("COM-TEMP","COM-0"+(Fournisseur.dernierId_plus_1("commande")-1));
-//							System.out.println((Fournisseur.dernierId_plus_1("commande")-1));
-//						}
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -511,10 +511,11 @@ public class UI_pan_Liste_Commande extends JPanel {
 		btnAnnulerCmmande.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(Commande.getSelect().equals("COM-TEMP")) {
-							boolean b = lgCom.supprimerLigneCommande("tout","COM-TEMP" ,true);
-							if(b==false) {
-							com.supprimerCommande("COM-TEMP", true);
+				if(UI_pan_Liste_Commande.isEtatModifie() == false) {
+							
+							if(lgCom.supprimerLigneCommande("tout",Commande.getSelect() ,true)) {
+							com.supprimerCommande(Commande.getSelect(), true);
+							f.supprimerFournisseur("CLIENT-TEMP", true);
 							Menu.getPan_btn().setVisible(true);
 							Menu.addPanneau(UI_pan_Commande.getPanel());
 							com.afficheListe(UI_pan_Commande.getTable(),"");
@@ -619,5 +620,11 @@ public class UI_pan_Liste_Commande extends JPanel {
 		}else {
 				btn_sup_lg_com.setVisible(true);
 		}
+	}
+	public static boolean isEtatModifie() {
+		return etatModifie;
+	}
+	public static void setEtatModifie(boolean etatModifie) {
+		UI_pan_Liste_Commande.etatModifie = etatModifie;
 	}
 }

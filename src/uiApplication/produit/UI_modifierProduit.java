@@ -26,10 +26,14 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
+import menu.Menu;
 import models.Stock;
+import uiApplication.fournisseurs.UI_ajouterFournisseur;
 import uiPersonalisee.ControlFenetre;
 import uiPersonalisee.ControlImageChooser;
 import uiPersonalisee.PanneauPersonalise;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 public class UI_modifierProduit extends JDialog {
 
 	private final PanneauPersonalise contentPanel = new PanneauPersonalise(10,10,10,10,new Color(0, 0, 51));
@@ -53,22 +57,24 @@ public class UI_modifierProduit extends JDialog {
 	static JLabel lbl_sary;
 	
 	private static double X,Y,x,y;
-	private JTextField reference;
 	private JTextField designation;
-	private JComboBox categorie;
-	private JComboBox fournisseur;
+	private static JComboBox cbxcategorie;
+	private static JComboBox cbxfournisseur;
 	private JTextField prixUnitaire;
 	private JTextField quantite;
 	private JComboBox unite;
 	private JPanel panBtnExit;
 	private JLabel lblModifierProduit;
-	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_1_1;
 	private JLabel lblNewLabel_1_2;
 	private JLabel lblNewLabel_1_3;
 	private JLabel lblNewLabel_1_1_1;
 	private JLabel lblNewLabel_1_1_1_1;
+	private JTextField textField;
+	private JLabel lblNewLabel_1_4;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
 	
 	public static String getContenuMessage() {
 		return contenuMessage;
@@ -112,9 +118,9 @@ public class UI_modifierProduit extends JDialog {
 	
 	public UI_modifierProduit() {
 		initialise();
-		produit.getElement(reference, designation, categorie, fournisseur, prixUnitaire, quantite, unite);
 		
 		PanneauPersonalise panel = new PanneauPersonalise(10,10,10,10,new Color(0, 102, 153));
+		panel.setBounds(14, 37, 725, 34);
 		
 		lblModifierProduit = new JLabel("Modifier produit  num : ");
 		panel.add(lblModifierProduit);
@@ -123,6 +129,7 @@ public class UI_modifierProduit extends JDialog {
 		lblModifierProduit.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		
 		PanneauPersonalise panImageView = new PanneauPersonalise(10, 10, 10, 10, new Color(0, 0, 51));
+		panImageView.setBounds(568, 110, 170, 162);
 		panImageView.setLayout(new BorderLayout(0, 0));
 		
 		lbl_sary = new JLabel("");
@@ -130,6 +137,7 @@ public class UI_modifierProduit extends JDialog {
 		panImageView.add(lbl_sary, BorderLayout.CENTER);
 		
 		JButton btnNewButton = new JButton("Image du produit");
+		btnNewButton.setBounds(568, 291, 171, 29);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControlImageChooser ctrl = new ControlImageChooser();
@@ -143,93 +151,59 @@ public class UI_modifierProduit extends JDialog {
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnNewButton.setBackground(new Color(0, 102, 102));
-		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(panBtnExit, GroupLayout.PREFERRED_SIZE, 757, GroupLayout.PREFERRED_SIZE)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(14)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 725, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(14)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
-						.addComponent(reference, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
-						.addComponent(categorie, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
-						.addComponent(prixUnitaire, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE))
-					.addGap(42)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
-						.addComponent(designation, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
-						.addComponent(fournisseur, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_1_2, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-								.addComponent(quantite, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
-							.addGap(12)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(9)
-									.addComponent(lblNewLabel_1_1_1_1, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
-								.addComponent(unite, GroupLayout.PREFERRED_SIZE, 119, GroupLayout.PREFERRED_SIZE))))
-					.addGap(40)
-					.addComponent(panImageView, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(568)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addComponent(panBtnExit, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addGap(12)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-					.addGap(8)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-							.addGap(1)
-							.addComponent(reference, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(categorie, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(24)
-									.addComponent(prixUnitaire, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblNewLabel_1_3, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-							.addGap(1)
-							.addComponent(designation, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(31)
-									.addComponent(fournisseur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblNewLabel_1_2, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE))
-							.addGap(12)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel_1_1_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(24)
-									.addComponent(quantite, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblNewLabel_1_1_1_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(24)
-									.addComponent(unite, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(31)
-							.addComponent(panImageView, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)))
-					.addGap(15)
-					.addComponent(btnNewButton))
-		);
-		contentPanel.setLayout(gl_contentPanel);
+		contentPanel.setLayout(null);
+		contentPanel.add(panBtnExit);
+		contentPanel.add(btnNewButton);
+		contentPanel.add(prixUnitaire);
+		contentPanel.add(lblNewLabel_1_3);
+		contentPanel.add(lblNewLabel_1);
+		contentPanel.add(designation);
+		contentPanel.add(lblNewLabel_1_1);
+		contentPanel.add(cbxcategorie);
+		contentPanel.add(cbxfournisseur);
+		contentPanel.add(lblNewLabel_1_2);
+		contentPanel.add(lblNewLabel_1_1_1);
+		contentPanel.add(quantite);
+		contentPanel.add(lblNewLabel_1_1_1_1);
+		contentPanel.add(unite);
+		contentPanel.add(panImageView);
+		contentPanel.add(panel);
+		
+		textField = new JTextField();
+		textField.setSelectedTextColor(Color.RED);
+		textField.setForeground(Color.WHITE);
+		textField.setFont(new Font("Cambria", Font.PLAIN, 22));
+		textField.setColumns(10);
+		textField.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
+		textField.setBackground(new Color(0, 0, 51));
+		textField.setBounds(14, 175, 231, 31);
+		contentPanel.add(textField);
+		
+		lblNewLabel_1_4 = new JLabel("Prix");
+		lblNewLabel_1_4.setForeground(Color.WHITE);
+		lblNewLabel_1_4.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1_4.setBounds(14, 151, 231, 25);
+		contentPanel.add(lblNewLabel_1_4);
+		
+		btnNewButton_1 = new JButton("+");
+		btnNewButton_1.setBounds(521, 116, 35, 28);
+		contentPanel.add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("+");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				UI_ajouterFournisseur d = new UI_ajouterFournisseur();
+				Menu.setTypeCollaborateur("Fournisseur");
+				d.setCommande(true);
+				UI_ajouterFournisseur.getDialog();
+				d.fermerFenetre(true);
+				String listeFournisseur[] = produit.afficheListe("nom_et_prenom", "fournisseur","fournisseur");
+				cbxfournisseur.setModel(new DefaultComboBoxModel(listeFournisseur));
+			}
+		});
+		btnNewButton_2.setBounds(521, 181, 35, 28);
+		contentPanel.add(btnNewButton_2);
 	}
 	public void initialise() {
 		dialog = new JDialog();
@@ -245,7 +219,6 @@ public class UI_modifierProduit extends JDialog {
 				X = (int)e.getXOnScreen()-x;
 				Y = (int)e.getYOnScreen()-y;
 				dialog.setBounds((int)X, (int) Y, 756, 413);
-			
 			}
 		});
 		contentPanel.addMouseListener(new MouseAdapter() {
@@ -263,17 +236,17 @@ public class UI_modifierProduit extends JDialog {
 				btnEnregistrer = new JButton("Enregistrer");
 				btnEnregistrer.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						String ref = reference.getText();
 						String des = designation.getText();
-						String idCategorie = produit.changeNomtoId("reference", "categorie","nomCategorie", categorie.getSelectedItem().toString());
-						String idFournisseur = produit.changeNomtoId("reference", "fournisseur","nom_et_prenom", fournisseur.getSelectedItem().toString());
+						String idCategorie = produit.changeNomtoId("reference", "categorie","nomCategorie", cbxcategorie.getSelectedItem().toString());
+						String idFournisseur = produit.changeNomtoId("reference", "fournisseur","nom_et_prenom", cbxfournisseur.getSelectedItem().toString());
 						double pUnitaire = Double.parseDouble(prixUnitaire.getText());
 						double quant = Double.parseDouble(quantite.getText());
 						String unit = unite.getSelectedItem().toString();
 						String image = "src/uiApplication/pictures/produits/'"+ControlImageChooser.getFileName()+"'".replace('\\', '/');
 						
-						if(produit.modifierProduit(ref, des, idCategorie, idFournisseur, pUnitaire, quant, unit, image)) {
+						if(produit.modifierProduit(Stock.getSelect(),des, idCategorie, idFournisseur, pUnitaire, quant, unit, image)) {
 							System.out.println("Produit a  été modifié avec succès! ");
+							fermerFenetre(false);
 						}else {
 							System.out.println("Erreur lors de la modification dans la  table ");
 						}
@@ -297,11 +270,11 @@ public class UI_modifierProduit extends JDialog {
 			btnRetour.setActionCommand("OK");
 			GroupLayout gl_buttonPane = new GroupLayout(buttonPane);
 			gl_buttonPane.setHorizontalGroup(
-				gl_buttonPane.createParallelGroup(Alignment.LEADING)
-					.addGroup(Alignment.TRAILING, gl_buttonPane.createSequentialGroup()
+				gl_buttonPane.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_buttonPane.createSequentialGroup()
 						.addContainerGap()
 						.addComponent(btnRetour, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 417, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.RELATED, 411, Short.MAX_VALUE)
 						.addComponent(btnEnregistrer, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
 						.addGap(19))
 			);
@@ -311,8 +284,8 @@ public class UI_modifierProduit extends JDialog {
 						.addContainerGap()
 						.addGroup(gl_buttonPane.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnEnregistrer)
-							.addComponent(btnRetour, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
-						.addContainerGap(13, Short.MAX_VALUE))
+							.addComponent(btnRetour, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(7, Short.MAX_VALUE))
 			);
 			buttonPane.setLayout(gl_buttonPane);
 		}
@@ -342,23 +315,10 @@ public class UI_modifierProduit extends JDialog {
 		);;
 		
 		panBtnExit = new JPanel();
-		
-		lblNewLabel = new JLabel("Référence");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setForeground(Color.WHITE);
-		
-		reference = new JTextField();
-		reference.setEditable(false);
-		reference.setFont(new Font("Cambria", Font.PLAIN, 22));
-		reference.setBackground(new Color(0, 0, 51));
-		reference.setForeground(Color.WHITE);
-		reference.setSelectedTextColor(Color.red);
-		reference.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
-		
-		lblNewLabel.setLabelFor(reference);
-		reference.setColumns(10);
+		panBtnExit.setBounds(0, 0, 757, 25);
 		
 		designation = new JTextField();
+		designation.setBounds(14, 112, 231, 31);
 		designation.setFont(new Font("Cambria", Font.PLAIN, 22));
 		designation.setBackground(new Color(0, 0, 51));
 		designation.setForeground(Color.WHITE);
@@ -367,11 +327,13 @@ public class UI_modifierProduit extends JDialog {
 		designation.setColumns(10);
 		
 		lblNewLabel_1 = new JLabel("Désignation");
+		lblNewLabel_1.setBounds(14, 77, 231, 34);
 		lblNewLabel_1.setLabelFor(designation);
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		lblNewLabel_1_1 = new JLabel("Catégorie");
+		lblNewLabel_1_1.setBounds(287, 85, 231, 25);
 		lblNewLabel_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panBtnExit.setLayout(new BorderLayout(0, 0));
@@ -379,27 +341,31 @@ public class UI_modifierProduit extends JDialog {
 		ControlFenetre panel_2 = new ControlFenetre(dialog);
 		panBtnExit.add(panel_2, BorderLayout.CENTER);
 		
-		categorie = new JComboBox();
+		cbxcategorie = new JComboBox();
+		cbxcategorie.setBounds(287, 116, 231, 27);
 		Stock st = new Stock();
 		String listeCategorie[] = st.afficheListe("nomCategorie", "categorie","");
-		categorie.setModel(new DefaultComboBoxModel<String>(listeCategorie));
-		categorie.setForeground(Color.BLUE);
-		categorie.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbxcategorie.setModel(new DefaultComboBoxModel<String>(listeCategorie));
+		cbxcategorie.setForeground(Color.BLUE);
+		cbxcategorie.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
-		lblNewLabel_1_1.setLabelFor(categorie);
+		lblNewLabel_1_1.setLabelFor(cbxcategorie);
 		
-		fournisseur = new JComboBox();
+		cbxfournisseur = new JComboBox();
+		cbxfournisseur.setBounds(287, 182, 231, 27);
 		String listeFournisseur[] = st.afficheListe("nom_et_prenom", "fournisseur","");
-		fournisseur.setModel(new DefaultComboBoxModel(listeFournisseur));
-		fournisseur.setForeground(Color.BLUE);
-		fournisseur.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbxfournisseur.setModel(new DefaultComboBoxModel(listeFournisseur));
+		cbxfournisseur.setForeground(Color.BLUE);
+		cbxfournisseur.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		lblNewLabel_1_2 = new JLabel("Fournisseur");
-		lblNewLabel_1_2.setLabelFor(fournisseur);
+		lblNewLabel_1_2.setBounds(287, 151, 241, 34);
+		lblNewLabel_1_2.setLabelFor(cbxfournisseur);
 		lblNewLabel_1_2.setForeground(Color.WHITE);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		prixUnitaire = new JTextField();
+		prixUnitaire.setBounds(14, 245, 231, 31);
 		prixUnitaire.setFont(new Font("Cambria", Font.PLAIN, 22));
 		prixUnitaire.setBackground(new Color(0, 0, 51));
 		prixUnitaire.setForeground(Color.WHITE);
@@ -408,15 +374,18 @@ public class UI_modifierProduit extends JDialog {
 		prixUnitaire.setColumns(10);
 		
 		lblNewLabel_1_3 = new JLabel("Prix Unitaire");
+		lblNewLabel_1_3.setBounds(14, 221, 231, 25);
 		lblNewLabel_1_3.setLabelFor(prixUnitaire);
 		lblNewLabel_1_3.setForeground(Color.WHITE);
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		lblNewLabel_1_1_1 = new JLabel("Quantité");
+		lblNewLabel_1_1_1.setBounds(287, 221, 110, 25);
 		lblNewLabel_1_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		quantite = new JTextField();
+		quantite.setBounds(287, 245, 110, 31);
 		quantite.setFont(new Font("Cambria", Font.PLAIN, 22));
 		quantite.setBackground(new Color(0, 0, 51));
 		quantite.setForeground(Color.WHITE);
@@ -426,13 +395,14 @@ public class UI_modifierProduit extends JDialog {
 		quantite.setColumns(10);
 		
 		lblNewLabel_1_1_1_1 = new JLabel("Unité");
+		lblNewLabel_1_1_1_1.setBounds(418, 221, 110, 25);
 		lblNewLabel_1_1_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		unite = new JComboBox();
+		unite.setBounds(409, 245, 119, 31);
 		unite.setModel(new DefaultComboBoxModel(new String[] {"", "KG", "T", "Sacs", "Carton(s)", "Paquet(s)", "Bal(s)"}));
 		dialog.getContentPane().setLayout(groupLayout);
-		
-		
+		produit.getElement(designation, cbxcategorie, cbxfournisseur, prixUnitaire, quantite, unite);
 	}
 }

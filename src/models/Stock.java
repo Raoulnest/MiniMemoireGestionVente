@@ -107,7 +107,7 @@ public class Stock {
             return liste;
 	}
 //	methode pour ajouter des produits dans la table produit
-	public boolean ajoutProduit(String reference, String designation,  String idCategorie,  String idFournisseur, double prixUnitaire, double quantite, String unite, String image) {
+	public boolean ajoutProduit(String designation,  String idCategorie,  String idFournisseur, double prixUnitaire, double quantite, String unite, String image) {
 		String requete = "INSERT INTO stock(reference, designation, idCategorie, idFournisseur, prixUnitaire, quantite, unite, image)VALUES (?,?,?,?,?,?,?,?)";
 		boolean est_ajoute = false;
 		try {
@@ -290,7 +290,7 @@ public class Stock {
 	}
 	
 //	Obtnenir l'element selectionné
-public void getElement(JTextField reference, JTextField designation, JComboBox<Integer> categorie, JComboBox<Integer> fournisseur, JTextField prixUnitaire, JTextField quantite, JComboBox<String> unite) {
+public void getElement(JTextField designation, JComboBox<Integer> categorie, JComboBox<Integer> fournisseur, JTextField prixUnitaire, JTextField quantite, JComboBox<String> unite) {
 
 		String requete = "SELECT * FROM stock, categorie, fournisseur WHERE stock.idCategorie = categorie.reference AND stock.idFournisseur = fournisseur.reference AND stock.reference = '"+getSelect()+"'";
        System.out.println(requete);
@@ -298,7 +298,7 @@ public void getElement(JTextField reference, JTextField designation, JComboBox<I
             st=(Statement) ConnectionDB.getConnect().createStatement();
             rs = (ResultSet) st.executeQuery(requete);
             while(rs.next()){
-            	reference.setText(rs.getString("stock.reference")); 
+//            	reference.setText(rs.getString("stock.reference")); 
             	designation.setText(rs.getString("stock.designation")); 
             	categorie.setSelectedItem(rs.getString("categorie.nomCategorie"));
             	fournisseur.setSelectedItem(rs.getString("fournisseur.nom_et_prenom"));

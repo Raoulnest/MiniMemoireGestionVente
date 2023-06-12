@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -23,6 +24,7 @@ import menu.Menu;
 import models.Commande;
 import models.Fournisseur;
 import models.LigneCommande;
+import models.Stock;
 import uiPersonalisee.ScrollPersonalise;
 import uiPersonalisee.TableDark;
 import uiPersonalisee.Zonne_d_Image;
@@ -37,6 +39,7 @@ public class UI_pan_Commande extends JPanel {
 	Fournisseur frs = new Fournisseur();
 	UI_pan_Liste_Commande lg = new UI_pan_Liste_Commande();
 	LigneCommande ligneCommande = new LigneCommande();
+	
 	
 	public static String getLblPan_Liste_Produit() {
 		return lblPan_Liste_Produit.getText();
@@ -68,12 +71,12 @@ public class UI_pan_Commande extends JPanel {
 		JButton btnNewButton = new JButton("Créer");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				UI_pan_Liste_Commande.setEtatModifie(false);
 				Menu.addPanneau(UI_pan_Liste_Commande.getPanel());
-				Commande.setSelect(c.ajoutCommande("CLIENT-TEMP", 0));
+				String client = c.ajoutCommande("CLIENT-TEMP", 0);
+				Commande.setSelect(client);
 				Menu.setTypeCollaborateur("Client");
-				
 				ligneCommande.afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), Commande.getSelect(),  "");
-				
 				com.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
 				Menu.getPan_btn().setVisible(false);
 			}
@@ -85,12 +88,12 @@ public class UI_pan_Commande extends JPanel {
 		JButton btnModifier = new JButton("Modifier");
 		btnModifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				UI_pan_Liste_Commande.setEtatModifie(true);
 				Menu.addPanneau(UI_pan_Liste_Commande.getPanel());
 				ligneCommande.afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), Commande.getSelect(),  "");
 				Menu.setTypeCollaborateur("Client");
-//				c.ajoutCommande();
 				com.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
-				Menu.getPan_btn().setVisible(false);
+        		Menu.getPan_btn().setVisible(false);
 			}
 		});
 		btnModifier.setForeground(Color.WHITE);
@@ -101,16 +104,20 @@ public class UI_pan_Commande extends JPanel {
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Commande.isElt_select()) {
-					if(c.supprimerCommande(Commande.getSelect(),Commande.isElt_select())) {
-						c.afficheListe(table,"");
+					if(com.supprimerLigneCommande("tout", Commande.getSelect(),true)) {
+						if(c.supprimerCommande(Commande.getSelect(),Commande.isElt_select())) {
+							c.afficheListe(table,"");
+						}else {
+							System.out.println("Probleme de suppression de donnees dans la table Commande.");
+						}
 					}else {
-						System.out.println("Probleme de suppression");
-					}
-				}else {
-					 Dialogue diag = new Dialogue("Veuillez selectionner d'abord un element ! ",Color.RED);
-						diag.fermerFenetre(true);
+							System.out.println("Probleme de suppression de donnees dans la table Ligne_commande.");
 				}
+			}else {
+				 Dialogue diag = new Dialogue("Veuillez selectionner d'abord un element ! ",Color.RED);
+				diag.fermerFenetre(true);
 			}
+		}
 		});
 		btnSupprimer.setForeground(Color.WHITE);
 		btnSupprimer.setFont(new Font("Arial", Font.PLAIN, 14));
