@@ -1,4 +1,4 @@
-package uiApplication.commandes;
+package uiApplication;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -28,7 +28,7 @@ import uiPersonalisee.ScrollPersonalise;
 import uiPersonalisee.TableDark;
 import uiPersonalisee.Zonne_d_Image;
 
-public class UI_pan_Commande extends JPanel {
+public class UI_pan_Facture extends JPanel {
 	static JPanel panel = new JPanel();
 	static JLabel lblPan_Liste_Produit;
 
@@ -36,20 +36,19 @@ public class UI_pan_Commande extends JPanel {
 	Commande c = new Commande();
 	
 	Fournisseur frs = new Fournisseur();
-	UI_panReglement reglement = new UI_panReglement();
 	
 	
 	public static String getLblPan_Liste_Produit() {
 		return lblPan_Liste_Produit.getText();
 	}
 	public static void setLblPan_Liste_Produit(String titre) {
-		UI_pan_Commande.lblPan_Liste_Produit.setText(titre);
+		UI_pan_Facture.lblPan_Liste_Produit.setText(titre);
 	}
 	public static JPanel getPanel() {
 		return panel;
 	}
 	public static void setPanel(JPanel panel) {
-		UI_pan_Commande.panel = panel;
+		UI_pan_Facture.panel = panel;
 	}
 	/**
 	 * Create the panel.
@@ -61,21 +60,17 @@ public class UI_pan_Commande extends JPanel {
 		return table;
 	}
 	public static void setTable(TableDark table) {
-		UI_pan_Commande.table = table;
+		UI_pan_Facture.table = table;
 	}
-	public UI_pan_Commande() {
+	public UI_pan_Facture() {
 		panel.setBackground(new Color(0, 0, 51));
 		
 		JButton btnNewButton = new JButton("Créer");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UI_pan_Liste_Commande.setEtatModifie(false);
-				Menu.addPanneau(UI_pan_Liste_Commande.getPanel());
 				String client = c.ajoutCommande("CLIENT-TEMP", 0);
 				Commande.setSelect(client);
 				Menu.setTypeCollaborateur("Client");
-				lgcom.afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), Commande.getSelect(),  "");
-				lgcom.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
 				Menu.getPan_btn().setVisible(false);
 			}
 		});
@@ -86,18 +81,7 @@ public class UI_pan_Commande extends JPanel {
 		JButton btnModifier = new JButton("Modifier");
 		btnModifier.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UI_pan_Liste_Commande.setEtatModifie(true);
-				Menu.addPanneau(UI_pan_Liste_Commande.getPanel());
-				lgcom.afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), Commande.getSelect(),  "");
-				Menu.setTypeCollaborateur("Client");
-				lgcom.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
-				try {
-					UI_pan_Liste_Commande.getLblTotal().setText("<html>Somme d\'article :  <b style = \"color: Orange;\">"+LigneCommande.getPrixTotal(Commande.getSelect())+"</b> Ar.</html>");
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-        		Menu.getPan_btn().setVisible(false);
+
 			}
 		});
 		btnModifier.setForeground(Color.WHITE);
@@ -130,19 +114,7 @@ public class UI_pan_Commande extends JPanel {
 		JButton btnNewButton_1_1 = new JButton("Imprimer");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				UI_pan_Liste_Commande.setEtatModifie(true);
-				Menu.addPanneau(UI_panReglement.getPanel());
-				lgcom.afficheListe(UI_panReglement.getTableLgCommande(), Commande.getSelect(),  "");
-				System.out.println(Commande.getSelect());
-				reglement.setTxtCommande(Commande.getSelect());
-				reglement.getTxtClient().setText(c.getClient(Commande.getSelect()));
-				
-				try {
-					UI_panReglement.getTxt_prixTotal().setText(""+LigneCommande.getPrixTotal(Commande.getSelect()));
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				};
-        		Menu.getPan_btn().setVisible(true);
+
 			}
 		});
 		btnNewButton_1_1.setForeground(Color.WHITE);

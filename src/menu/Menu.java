@@ -22,9 +22,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import models.Commande;
+import models.Facture;
 import models.Fournisseur;
 import models.LigneCommande;
 import models.Stock;
+import uiApplication.UI_pan_Facture;
 import uiApplication.commandes.UI_pan_Commande;
 import uiApplication.commandes.UI_pan_Liste_Commande;
 import uiApplication.fournisseurs.UI_pan_Liste_Fournisseur;
@@ -40,6 +42,8 @@ public class Menu extends JFrame {
 	LigneCommande com = new LigneCommande();
 	Commande c = new Commande();
 	UI_pan_Commande panC = new UI_pan_Commande();
+	UI_pan_Facture p_fact = new UI_pan_Facture();
+	Facture fact = new Facture();
 	
 	private static String click = "";
 	private static boolean clicked = false;
@@ -368,8 +372,8 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setClicked(false);
 				click = "Factures";
-				ctrlP.afficheListe(p.getTable(),"");
-				addPanneau(UI_pan_Liste_Produit.getPanel());
+				fact.afficheListe(UI_pan_Facture.getTable(),"");
+				addPanneau(UI_pan_Facture.getPanel());
 			}
 		});
 		btnFacture.setForeground(Color.WHITE);

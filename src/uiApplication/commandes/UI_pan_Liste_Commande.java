@@ -59,7 +59,6 @@ public class UI_pan_Liste_Commande extends JPanel {
 
 	Commande com = new Commande();
 	LigneCommande lgCom = new LigneCommande();
-	UI_panReglement reglement = new UI_panReglement();
 	
 	Fournisseur f = new Fournisseur();
 	private static boolean etatModifie = false;
@@ -517,14 +516,12 @@ public class UI_pan_Liste_Commande extends JPanel {
 					if(com.modifierCommande(Commande.getSelect(), client, LigneCommande.getPrixTotal(Commande.getSelect()))) {
 						f.supprimerFournisseur("CLIENT-TEMP", true);
 						Menu.getPan_btn().setVisible(true);
-//						Menu.addPanneau(UI_pan_Commande.getPanel());
-//						com.afficheListe(UI_pan_Commande.getTable(),"");
-//						System.out.println((Fournisseur.dernierId_plus_1("commande")-1));
-						
+						UI_panReglement reglement = new UI_panReglement();
 						Menu.addPanneau(UI_panReglement.getPanel());
 						lgCom.afficheListe(UI_panReglement.getTableLgCommande(), Commande.getSelect(),  "");
 						reglement.getTxtCommande().setText(Commande.getSelect());
 						reglement.getTxtClient().setText(com.getClient(Commande.getSelect()));
+						UI_panReglement.getTxt_prixTotal().setText(""+LigneCommande.getPrixTotal(Commande.getSelect()));
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();

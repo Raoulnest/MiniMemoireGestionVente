@@ -16,6 +16,9 @@ public class Facture {
 	String reference;
 	String idCom;
 	Date dateFacturation;
+	double mttPayer;
+	double mttReste;
+	String etat;
 
 	private static String select;
 	private static ResultSet rs;
@@ -23,10 +26,13 @@ public class Facture {
 	
 	public Facture() {}
 	
-	public  Facture(String reference, String idCom, Date dateFacture) {
+	public  Facture(String reference, String idCom, Date dateFacture,double mttPayer, double mttReste, String etat) {
 		this.reference = reference;
 		this.idCom = idCom;
 		this.dateFacturation = dateFacture;
+		this.mttPayer = mttPayer;
+		this.mttReste = mttReste;
+		this.etat = etat;
 		
 	}
 	
@@ -113,7 +119,7 @@ public class Facture {
 	            	 rs = (ResultSet) st.executeQuery(sql1);
 	            }
 	            while(rs.next()){
-	            	ListeFacture.add(new Facture(rs.getString("reference"),rs.getString("idCom"),rs.getDate("dateFact")));
+	            	ListeFacture.add(new Facture(rs.getString("reference"),rs.getString("idCom"),rs.getDate("dateFact"),rs.getDouble("mttPayer"), rs.getDouble("reste"), rs.getString("etat")));
 	            	compteFacture++;
 	            }
 	        } catch (SQLException ex) {
@@ -123,9 +129,9 @@ public class Facture {
 	
 	//affichage tableau de fournisseur
 	
-	private String [] colonne = {" REFERENCE Facture"," REFERENCE COMMANDE ",
+	private String [] colonne = {" REFERENCE Facture"," REFERENCE COMMANDE ","MONTANT PAYER","MONTANT RESTE",
 			" DATE DE FACTURE ", " ETAT DU FACTURE "};
-	private Object [] liste = new Object[4];
+	private Object [] liste = new Object[6];
 	DefaultTableModel tableParDefaut;
 	private static boolean elt_select = false;
 	private static int compteFacture;
@@ -137,7 +143,10 @@ public class Facture {
 	        	list.get(i);
 	        	liste[0] = list.get(i).reference;
 	        	liste[1] = list.get(i).idCom;
-	        	liste[2] = list.get(i).dateFacturation;
+	        	liste[2] = list.get(i).mttPayer;
+	        	liste[3] = list.get(i).mttReste;
+	        	liste[4] = list.get(i).dateFacturation;
+	        	liste[5] = list.get(i).etat;
 	        	
 	        	tableParDefaut.addRow(liste);
 	        }

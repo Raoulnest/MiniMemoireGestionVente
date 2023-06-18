@@ -178,6 +178,7 @@ public class UI_panReglement extends JPanel {
 		txtCommande.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
 		txtCommande.setBackground(new Color(0, 0, 51));
 		
+		
 		JLabel lblNewLabel_1_2 = new JLabel("Commande :");
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_2.setForeground(Color.WHITE);
@@ -248,7 +249,7 @@ public class UI_panReglement extends JPanel {
 		btnRegler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Double.parseDouble(txtMontantApayer.getText()) >= Double.parseDouble(txt_prixTotal.getText())) {
-					if(fact.ajoutFacture(Commande.getSelect(), "Reglée", Double.parseDouble(txtMontantApayer.getText()), Double.parseDouble(txtMontantArendre.getText()))) {
+					if(fact.ajoutFacture(Commande.getSelect(), "Reglée", Double.parseDouble(txtMontantApayer.getText()), 0)) {
 						com.modifierCommande(Commande.getSelect(), "Traitée");
 					}
 				}else {
@@ -410,8 +411,8 @@ public class UI_panReglement extends JPanel {
 	public JTextField getTxtCommande() {
 		return txtCommande;
 	}
-	public void setTxtCommande(JTextField txtCommande) {
-		this.txtCommande = txtCommande;
+	public void setTxtCommande(String txtCommande) {
+		this.txtCommande.setText(txtCommande);
 	}
 	public void setTxtClient(JTextField txtClient) {
 		this.txtClient = txtClient;
