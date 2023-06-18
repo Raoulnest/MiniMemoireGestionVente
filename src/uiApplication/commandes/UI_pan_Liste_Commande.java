@@ -26,6 +26,7 @@ import javax.swing.border.MatteBorder;
 
 import menu.Menu;
 import models.Commande;
+import models.Facture;
 import models.Fournisseur;
 import models.LigneCommande;
 import models.Stock;
@@ -58,10 +59,13 @@ public class UI_pan_Liste_Commande extends JPanel {
 
 	Commande com = new Commande();
 	LigneCommande lgCom = new LigneCommande();
+	UI_panReglement reglement = new UI_panReglement();
+	
 	Fournisseur f = new Fournisseur();
 	private static boolean etatModifie = false;
 	
 	static JComboBox cbxClient;
+	private JTextField textField;
 
 	public static JComboBox getCbxClient() {
 		return cbxClient;
@@ -107,7 +111,7 @@ public class UI_pan_Liste_Commande extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		ScrollPersonalise sb = new ScrollPersonalise();
 		scrollPane.setVerticalScrollBar(sb);
-		tableProduit = new TableDark();;
+		tableProduit = new TableDark();
 		tableProduit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -120,6 +124,12 @@ public class UI_pan_Liste_Commande extends JPanel {
 		produit.afficheListeProduit(tableProduit,"");
 		
 		txtRecherche = new JTextField();
+		txtRecherche.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				stock.afficheListeListeProduit(tableProduit,  txtRecherche.getText());
+			}
+		});
 		txtRecherche.setHorizontalAlignment(SwingConstants.CENTER);
 		txtRecherche.setForeground(Color.WHITE);
 		txtRecherche.setFont(new Font("Calibri", Font.PLAIN, 18));
@@ -130,7 +140,6 @@ public class UI_pan_Liste_Commande extends JPanel {
 		
 		cbx_categorie = new JComboBox();
 
-		
 		String listeCategorie[] = stock.afficheListe("nomCategorie", "categorie","");
 		cbx_categorie.setModel(new DefaultComboBoxModel<String>(listeCategorie));
 		
@@ -441,13 +450,25 @@ public class UI_pan_Liste_Commande extends JPanel {
 		cbxClient = new JComboBox();
 		cbxClient.setModel(new DefaultComboBoxModel(listeFournisseur));
 		
+		textField = new JTextField();
+		textField.setSelectedTextColor(Color.ORANGE);
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setForeground(Color.WHITE);
+		textField.setFont(new Font("Calibri", Font.PLAIN, 18));
+		textField.setEditable(false);
+		textField.setColumns(10);
+		textField.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 255)));
+		textField.setBackground(new Color(0, 0, 51));
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+					.addGap(28)
+					.addComponent(textField, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(cbxClient, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnNewClient)
@@ -461,12 +482,14 @@ public class UI_pan_Liste_Commande extends JPanel {
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(7)
-							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 							.addComponent(btnNewClient)
 							.addComponent(cbxClient, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 286, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_4, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -494,9 +517,14 @@ public class UI_pan_Liste_Commande extends JPanel {
 					if(com.modifierCommande(Commande.getSelect(), client, LigneCommande.getPrixTotal(Commande.getSelect()))) {
 						f.supprimerFournisseur("CLIENT-TEMP", true);
 						Menu.getPan_btn().setVisible(true);
-						Menu.addPanneau(UI_pan_Commande.getPanel());
-						com.afficheListe(UI_pan_Commande.getTable(),"");
-						System.out.println((Fournisseur.dernierId_plus_1("commande")-1));
+//						Menu.addPanneau(UI_pan_Commande.getPanel());
+//						com.afficheListe(UI_pan_Commande.getTable(),"");
+//						System.out.println((Fournisseur.dernierId_plus_1("commande")-1));
+						
+						Menu.addPanneau(UI_panReglement.getPanel());
+						lgCom.afficheListe(UI_panReglement.getTableLgCommande(), Commande.getSelect(),  "");
+						reglement.getTxtCommande().setText(Commande.getSelect());
+						reglement.getTxtClient().setText(com.getClient(Commande.getSelect()));
 					}
 				} catch (SQLException e1) {
 					e1.printStackTrace();

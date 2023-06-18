@@ -45,7 +45,7 @@ public class ConnectionDB {
 	public static void main(String[] args) {
 		getConnect();
 		ConnectionDB c = new  ConnectionDB();
-		System.out.println("Minimum "+c.tabMin(tab));
+		System.out.println();
 		System.out.println("Maximum "+c.tabMax(tab));
 	}
 }

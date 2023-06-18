@@ -194,6 +194,7 @@ public class Stock {
 		}
 		return est_modifie;
 	}
+	
 //	methode pour supprimer les donnees dans la table produit
 	public boolean supprimerProduit(String reference, boolean isSelected) {
 		String requete = "DELETE FROM stock WHERE reference='"+reference+"'";

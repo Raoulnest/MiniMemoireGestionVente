@@ -36,24 +36,21 @@ public class Commande {
 		this.dateCommande = dateCommande;
 		this.etat = etat;
 	}
-	
-	public boolean ajoutCommande() {
-		String requete = "INSERT INTO commande(reference, idCli, prix_total) VALUES ('COM-TEMP','CLIENT-TEMP','0.0')";
-		boolean est_ajoute = false;
-		if(f.ajoutFournisseur() == false) {
-			System.out.println("Echec d'ajout dans la table Client");
-		}else {
-		try {
-			java.sql.PreparedStatement insert = ConnectionDB.getConnect().prepareStatement(requete);
-	        insert.executeUpdate();
-	        est_ajoute = true;
-		} catch (Exception e) {
-			est_ajoute=false;
-			e.printStackTrace();
-		}
-		}
-		return est_ajoute;
+
+	public String getClient(String idCommande) {
+		 String sql = "SELECT nom_et_prenom FROM fournisseur, commande WHERE fournisseur.type = 'Client' AND fournisseur.reference = commande.idCli AND commande.reference = '"+idCommande+"'";
+	        String nomClient = "";
+	        try {
+	        		st=(Statement) ConnectionDB.getConnect().createStatement();
+	            	rs = (ResultSet) st.executeQuery(sql);
+	            while(rs.next()){
+	            	nomClient = rs.getString("fournisseur.nom_et_prenom");
+	            }
+	        } catch (SQLException ex) {
+	        }
+		return nomClient;
 	}
+	
 	public String ajoutCommande(String idClient, double prix_total) {
 		String requete = "INSERT INTO commande(reference,idCli,prix_total)VALUES (?,?,?)";
 		boolean est_ajoute = false;
@@ -78,8 +75,25 @@ public class Commande {
 		}
 		return ref;
 	}
+//	modification d'etat de la commande
+	public boolean modifierCommande(String reference, String etat) {
+		String sql = "UPDATE commande SET etat = ? WHERE reference = '"+reference+"'";
+		boolean est_modifie = false;
+		
+		try {
+			java.sql.PreparedStatement modifier = modifier = ConnectionDB.getConnect().prepareStatement(sql);;
+			 modifier.setString(1, etat);
+			 
+			 modifier.executeUpdate();
+			 est_modifie = true; 	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return est_modifie;
+	}
+	
+//	Modification des commandes
 	public boolean modifierCommande(String reference, String idCli, double prix_total){
-		String requete = "UPDATE commande SET reference=?,idCli=?,prix_total=? WHERE reference='"+reference+"'";
 		String requete2 = "UPDATE commande SET idCli=?,prix_total=? WHERE reference='"+reference+"'";
 		String requete3 = "SELECT  * FROM fournisseur WHERE reference = '"+idCli+"'";
 		String nomE = null,adrF = null,nom_et_pre = null,email = null;
@@ -98,21 +112,13 @@ public class Commande {
 	        } catch (SQLException ex) {
 	        }
 		if(f.modifierFournisseur(idCli, nomE, adrF, nom_et_pre, phone, email, true)) {		
-			String ref = "COM-0"+(Fournisseur.dernierId_plus_1("commande")-1);
 			java.sql.PreparedStatement modifier = null;
 			try {
-		            if(reference.equals("COM-TEMP") ){
-		            	 modifier = ConnectionDB.getConnect().prepareStatement(requete);
-		            	 modifier.setString(1,ref);
-						 modifier.setString(2,idCli);
-						 modifier.setDouble(3,prix_total);
-		            }else {
 		            	 modifier = ConnectionDB.getConnect().prepareStatement(requete2);
-		            	modifier.setString(1,idCli);
+		            	 modifier.setString(1,idCli);
 						 modifier.setDouble(2,prix_total);
-		            }
-					 modifier.executeUpdate();
-					 est_modifie = true;
+						 modifier.executeUpdate();
+						 est_modifie = true;
 					 
 			} catch (Exception e) {
 				est_modifie = false;
@@ -122,7 +128,6 @@ public class Commande {
 	}else {
 		
 	}
-
 		return est_modifie;
 	}
 	//methode pour supprimer les donnees dans la table produit

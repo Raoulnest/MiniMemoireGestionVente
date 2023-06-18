@@ -33,12 +33,13 @@ public class UI_pan_Commande extends JPanel {
 	static JPanel panel = new JPanel();
 	static JLabel lblPan_Liste_Produit;
 
-	LigneCommande com = new LigneCommande();
+	LigneCommande lgcom = new LigneCommande();
 	Commande c = new Commande();
 	UI_pan_Liste_Commande  lgCom = new UI_pan_Liste_Commande();
 	Fournisseur frs = new Fournisseur();
-	UI_pan_Liste_Commande lg = new UI_pan_Liste_Commande();
 	LigneCommande ligneCommande = new LigneCommande();
+	
+	UI_panReglement reglement = new UI_panReglement();
 	
 	
 	public static String getLblPan_Liste_Produit() {
@@ -77,7 +78,7 @@ public class UI_pan_Commande extends JPanel {
 				Commande.setSelect(client);
 				Menu.setTypeCollaborateur("Client");
 				ligneCommande.afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), Commande.getSelect(),  "");
-				com.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
+				lgcom.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
 				Menu.getPan_btn().setVisible(false);
 			}
 		});
@@ -92,7 +93,7 @@ public class UI_pan_Commande extends JPanel {
 				Menu.addPanneau(UI_pan_Liste_Commande.getPanel());
 				ligneCommande.afficheListe(UI_pan_Liste_Commande.getTableLgCommande(), Commande.getSelect(),  "");
 				Menu.setTypeCollaborateur("Client");
-				com.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
+				lgcom.afficheListeProduit(UI_pan_Liste_Commande.getTableProduit(),"");
         		Menu.getPan_btn().setVisible(false);
 			}
 		});
@@ -104,7 +105,7 @@ public class UI_pan_Commande extends JPanel {
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Commande.isElt_select()) {
-					if(com.supprimerLigneCommande("tout", Commande.getSelect(),true)) {
+					if(lgcom.supprimerLigneCommande("tout", Commande.getSelect(),true)) {
 						if(c.supprimerCommande(Commande.getSelect(),Commande.isElt_select())) {
 							c.afficheListe(table,"");
 						}else {
@@ -126,7 +127,18 @@ public class UI_pan_Commande extends JPanel {
 		JButton btnNewButton_1_1 = new JButton("Imprimer");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				UI_pan_Liste_Commande.setEtatModifie(true);
+				Menu.addPanneau(UI_panReglement.getPanel());
+				ligneCommande.afficheListe(UI_panReglement.getTableLgCommande(), Commande.getSelect(),  "");
+				reglement.getTxtCommande().setText(Commande.getSelect());
+				reglement.getTxtClient().setText(c.getClient(Commande.getSelect()));
 				
+				try {
+					UI_panReglement.getTxt_prixTotal().setText("55"+LigneCommande.getPrixTotal(Commande.getSelect()));
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				};
+        		Menu.getPan_btn().setVisible(true);
 			}
 		});
 		btnNewButton_1_1.setForeground(Color.WHITE);
